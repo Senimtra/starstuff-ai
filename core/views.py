@@ -1,3 +1,6 @@
 from django.shortcuts import render
 
-# Views here
+# Main index view
+def index(request):
+    # Render the 'index.html' template
+    return render(request, 'index.html')

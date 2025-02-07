@@ -1,0 +1,87 @@
+/* Body Styles */
+body {
+    background-color: #0b0033;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Star Styles */
+.star {
+    position: absolute;
+    background: white;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    animation: twinkle 2s infinite;
+}
+
+/* Animation for star twinkling */
+@keyframes twinkle {
+    0% {
+        opacity: 0.1;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.1;
+    }
+}
+
+/* Mobile Frame Styles */
+.mobile-frame {
+    width: 350px;
+    height: 700px;
+    background: #111;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+    position: relative;
+    padding: 15px;
+    z-index: 2;
+}
+
+/* Chat Box Styles */
+.chat-box {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: 10px;
+    font-size: 18px;
+    background: #222;
+    border-radius: 10px;
+}
+
+/* Input Area Styles */
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Input Field */
+.input-area input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    background: #444;
+    color: white;
+}
+
+/* Send Button */
+.input-area button {
+    background: #ffcc00;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
