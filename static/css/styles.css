@@ -1,6 +1,6 @@
 /* Body Styles */
 body {
-    background-color: #0b0033;
+    background-color: #080027;
     color: white;
     display: flex;
     justify-content: center;
@@ -23,13 +23,13 @@ body {
 /* Animation for star twinkling */
 @keyframes twinkle {
     0% {
-        opacity: 0.1;
+        opacity: 0.2;
     }
     50% {
         opacity: 1;
     }
     100% {
-        opacity: 0.1;
+        opacity: 0.2;
     }
 }
 
@@ -52,10 +52,20 @@ body {
 .chat-box {
     flex-grow: 1;
     display: flex;
-    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
     padding: 10px;
     font-size: 18px;
     background: #222;
+    border-radius: 10px;
+    border: 1px solid red;
+}
+
+/* Message Box Styles */
+.message-box {
+    border: 1px solid purple;
+    padding: 5px;
+    margin-top: 5px;
     border-radius: 10px;
 }
 
@@ -84,4 +94,14 @@ body {
     border-radius: 10px;
     cursor: pointer;
     font-weight: bold;
+}
+
+.scrollable {
+    overflow: auto;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+}
+
+.scrollable::-webkit-scrollbar {
+    display: none; /* Chrome, Safari */
 }
