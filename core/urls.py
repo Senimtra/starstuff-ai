@@ -4,5 +4,7 @@ from . import views
 
 urlpatterns = [
     # Home view
-    path('', views.index, name = 'index')
+    path('', views.index, name = 'index'),
+    # Get Chatbot response
+    path('response/', views.response, name = 'response')
     ]

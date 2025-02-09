@@ -36,7 +36,7 @@ body {
 /* Mobile Frame Styles */
 .mobile-frame {
     width: 350px;
-    height: 700px;
+    height: 650px;
     background: #111;
     border-radius: 20px;
     display: flex;
@@ -58,12 +58,21 @@ body {
     font-size: 18px;
     background: #222;
     border-radius: 10px;
-    border: 1px solid red;
 }
 
 /* Message Box Styles */
 .message-box {
+    border: 1px solid green;
+    background-color: rgba(0, 128, 0, 0.2);
+    padding: 5px;
+    margin-top: 5px;
+    border-radius: 10px;
+}
+
+/* Message Bot Styles */
+.message-bot {
     border: 1px solid purple;
+    background-color: rgba(128, 0, 128, 0.2);
     padding: 5px;
     margin-top: 5px;
     border-radius: 10px;
