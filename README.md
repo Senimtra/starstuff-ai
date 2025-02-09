@@ -1,74 +1,81 @@
-# 🌟 Multimodal AI ChatBot for Children's Astronomy Facts 🚀
+<table>
+  <tr>
+    <td>
+      <img src="https://github.com/user-attachments/assets/96a0ac18-6071-4c04-8a7a-45d901da5eda" alt="Image" width="150">
+    </td>
+    <td>
+      <h1>🌟 Professor Starstuff</h1>
+      <h3>A Multimodal AI Chatbot for Children's Astronomy Facts 🚀</h3>
+    </td>
+  </tr>
+</table>
 
 ## 📌 Project Overview
-Welcome to the **Multimodal AI ChatBot** designed to help children learn about astronomy in a fun and interactive way! This chatbot extracts knowledge from YouTube videos, allowing kids to ask astronomy-related questions and receive engaging, easy-to-understand explanations. The chatbot functions as a **friendly teacher**, making learning an exciting adventure! 🧑‍🚀🌌
+Welcome to **Professor Starstuff**, a specialized AI chatbot designed to make learning astronomy fun and interactive for children! This chatbot extracts knowledge from YouTube videos, allowing kids to ask astronomy-related questions and receive engaging, easy-to-understand explanations. Like a friendly teacher, **Professor Starstuff** transforms learning into an exciting cosmic adventure. 🧑‍🚀🌌
 
 ## 🎯 Key Features
 
-✅ **Multimodal Interaction** - Users can interact with the chatbot via **text or voice** (speech-to-text & text-to-speech). 🎙️💬  
-✅ **AI-Powered Q&A** - Answers astronomy-related questions based on processed **YouTube video transcripts**.  
-✅ **Memory & Context Awareness** - The chatbot maintains conversation memory to ensure smooth, contextual discussions. 🧠  
-✅ **Vector Search Database** - Utilizes **ChromaDB** for efficient information retrieval. 📚  
-✅ **Child-Friendly Interface** - The chatbot mimics a **mobile app format** for an intuitive user experience. 📱  
-✅ **Deployed Web App** - Frontend on **Netlify**, Backend on **Heroku**. 🚀  
-✅ **Performance Evaluation** - Uses **LangSmith** for real-time evaluation and scoring. 📊  
-✅ **Scalable Backend** - Built using **Django**, with SQLite as the memory database. 🏗️  
-✅ **Future Enhancements (Wishlist)** - Option to include **podcasts, images, and video snippets** to enrich responses. 🎧🖼️  
+✅ **Multimodal Interaction** – Interaction via **text or voice** (text-to-speech). 💬  
+✅ **Question-Related Image** – Retrieves relevant images from the **NASA API**. 🖼️  
+✅ **AI-Powered Q&A** – Answers astronomy questions based on **Video transcripts**. 📄  
+✅ **Memory & Context Awareness** – Maintains conversation history. 🧠  
+✅ **Vector Search Database** – Uses **ChromaDB** for information retrieval. 📚  
+✅ **Child-Friendly Interface** – Adopts a **mobile app format** for intuitive use. 📱  
+✅ **Deployed Web App** – Hosted on **Heroku** for easy access. 🚀  
+✅ **Performance Evaluation** – Employs **LangSmith** for response quality assessment. 📊  
+✅ **Scalable Backend** – Built with **Django** using ChromaDB/SQLite as the database. 🏗️  
+✅ **Future Enhancement** – Option to add **podcast** for enriched responses. 🎧  
 
 ## 🛠️ Tech Stack
 
-| Component | Technology |
-|-----------|------------|
-| **Backend** | Django (Python) |
-| **Frontend** | HTML / CSS / JavaScript |
-| **Vector Database** | ChromaDB |
-| **Memory Database** | SQLite |
-| **LLM & Embeddings** | OpenAI API |
-| **Speech Processing** | OpenAI Whisper (Speech-to-Text) + Text-to-Speech |
-| **Evaluation** | LangSmith |
-| **Deployment** | Netlify (Frontend) + Heroku (Backend) |
+| Component            | Technology         |
+|----------------------|--------------------|
+| **Backend**          | Django (Python)   |
+| **Frontend**         | HTML / CSS / JS   |
+| **Vector Database**  | ChromaDB          |
+| **LLM & Embeddings** | OpenAI API        |
+| **Speech Processing**| OpenAI Whisper (TTS) |
+| **Evaluation**       | LangSmith         |
+| **Deployment**       | Heroku (PaaS)     |
 
 ## 📌 Architecture Workflow
 
-1️⃣ User asks a question via text or speech. 🎙️💬  
-2️⃣ Speech input is converted to text using **Whisper AI**.  
-3️⃣ The query is **embedded** using **OpenAI embeddings**.  
-4️⃣ The chatbot **searches ChromaDB** for relevant transcripts. 🔍  
-5️⃣ The retrieved information is processed through **OpenAI LLM** to generate an answer.  
-6️⃣ The chatbot responds via text or **text-to-speech**. 🗣️  
-7️⃣ **LangSmith** evaluates response quality in real time. 📊  
+1️⃣ **User Query**: The user asks a question via text input. ❓  
+2️⃣ **Embedding**: The query is embedded using **OpenAI embeddings**. 🗄️  
+3️⃣ **Search**: The chatbot searches **ChromaDB** for relevant video transcripts. 🔍  
+4️⃣ **LLM Processing**: Retrieved information is processed through the **LLM**. ⤴️  
+5️⃣ **NASA API Retrieval**: Relevant images are fetched from the **NASA API**. 🖼️  
+6️⃣ **Response Generation**: The chatbot responds via text or **text-to-speech**. 🗣️  
+7️⃣ **Evaluation**: **LangSmith** evaluates the response quality in real time. 📊  
 
 ## 🚀 Deployment
 
-1️⃣ **Frontend**: Deployed on **Netlify** 🎨  
-2️⃣ **Backend**: Hosted on **Heroku** 🖥️  
-3️⃣ **Database**: ChromaDB (Vector Search) & SQLite (Memory) 📚  
+1️⃣ **Website/App**: Hosted on **Heroku**. 🖥️  
+2️⃣ **Database**: **ChromaDB/SQLite** (Vector Search). 📚  
 
 ## 📂 Deliverables
 
-📌 **GitHub Repository** (Source Code)  
-📌 **Presentation Slides** (Google slides)  
-📌 **Comprehensive README** (This Document)  
-📌 **Deployed App** (Live Demo)
+- **GitHub Repository** (Complete Source Code)  
+- **Presentation Slides** (Google Slides)  
+- **Comprehensive README** (This Document)  
+- **Deployed App** (Live Demo)
 
 ## 📅 Project Management
 
-🗂️ **Kanban** in GitHub Projects to ensure smooth workflow and task tracking.
+- **GitHub Projects Kanban** to manage tasks and ensure smooth workflow tracking. 🗂️
 
 ## 🏆 Evaluation Criteria
 
-✅ **Accuracy**: How well the chatbot answers astronomy-related questions.  
-✅ **Usability**: Mobile-friendly, child-friendly, and interactive interface.  
-✅ **Latency**: Fast response times for a seamless user experience.  
-✅ **Performance**: Real-time evaluation using LangSmith.  
-✅ **Presentation**: Well-documented code, slides, and project explanation.  
+✅ **Accuracy** – Relevance and correctness of astronomy-related answers.  
+✅ **Usability** – Child-friendly, mobile-friendly, and intuitive interface.  
+✅ **Latency** – Speed of response for smooth user experience.  
+✅ **Performance** – Real-time evaluation using **LangSmith**.  
+✅ **Presentation** – Documented code, concise slides, and project explanation.  
 
-## 🎉 Future Enhancements (Wishlist)
+## 🎉 Future Enhancement
 
-🔹 Generate **podcasts** for astronomy facts. 🎧  
-🔹 Display **relevant images** along with answers. 🖼️  
-🔹 Integrate **video snippets** to enhance explanations. 🎥  
+- Expand capabilities to include **podcast** for richer audio learning content. 🎧  
 
 ## 👩‍🚀 Ready to Explore the Cosmos? 🌌
 
-Stay tuned for updates as I bring this exciting chatbot to life! 🚀💡
+Stay tuned for more updates and enhancements! 🚀✨  
