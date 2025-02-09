@@ -2,12 +2,57 @@
 body {
     background-color: #080027;
     color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     height: 100vh;
+    padding-top: 4em;
+}
+
+/* Section Box Styles */
+.section-box {
+    /* border: 1px solid rgb(24, 19, 95); */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 1em;
+}
+
+/* Shared Layout Box Styles */
+.layout-box {
+    width: 90%;
+    background: #111;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid rgb(33, 33, 33);
     position: relative;
-    overflow: hidden;
+    padding: 15px;
+    z-index: 2;
+}
+
+/* Header Frame Styles */
+.header-frame {
+    /* Inherits .layout-box styles */
+}
+
+/* Evaluation Frame Styles */
+.evaluation-frame {
+    margin-top: 2em;
+}
+
+/* Image Frame Styles */
+.image-frame {
+    margin-top: 2em;
+}
+
+/* AI Speech Frame Styles */
+.aispeech-frame {
+    /* Inherits .layout-box styles */
+}
+
+/* Mobile Frame Styles */
+.mobile-frame {
+    height: 80vh;
 }
 
 /* Star Styles */
@@ -33,31 +78,27 @@ body {
     }
 }
 
-/* Mobile Frame Styles */
-.mobile-frame {
-    width: 350px;
-    height: 650px;
-    background: #111;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    overflow: hidden;
-    position: relative;
-    padding: 15px;
-    z-index: 2;
-}
-
 /* Chat Box Styles */
 .chat-box {
     flex-grow: 1;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+    flex-direction: column-reverse; /* Ensures new messages appear at the bottom */
+    justify-content: flex-start; /* Aligns older messages to the top */
     padding: 10px;
     font-size: 18px;
     background: #222;
     border-radius: 10px;
+    overflow-y: auto; /* Enables vertical scrolling */
+    scrollbar-width: none; /* Hides scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hides scrollbar in IE/Edge */
+}
+
+/* Hides scrollbar for WebKit browsers (Chrome, Safari) */
+.chat-box::-webkit-scrollbar {
+    display: none;
+}
+
+.chat-content {
 }
 
 /* Message Box Styles */
@@ -105,12 +146,8 @@ body {
     font-weight: bold;
 }
 
-.scrollable {
-    overflow: auto;
-    scrollbar-width: none; /* Firefox */
-    -ms-overflow-style: none; /* IE and Edge */
-}
-
-.scrollable::-webkit-scrollbar {
-    display: none; /* Chrome, Safari */
+#user-input:focus {
+    outline: none !important;
+    /* box-shadow: none !important; */
+    /* border-color: transparent !important; */
 }

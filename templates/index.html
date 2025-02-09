@@ -16,16 +16,36 @@
 <script src="{% static 'js/scripts.js' %}"></script>
 
 <body>
-    <!-- Main chat container interface -->
-    <div class="mobile-frame">
-        <!-- Chat box messages -->
-        <div class="chat-box scrollable" id="chat-box">
-            <div class="message-bot">Hi! I'm AstronomyBot. Ask me anything about space! ✨</div>
-        </div>
-        <!-- Input area -->
-        <div class="input-area">
-            <input type="text" id="user-input" placeholder="Type your question...">
-            <button onclick="sendMessage()">Send</button>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-12 section-box">
+                <!-- AstronomyBot Header Image -->
+                <div class="header-frame layout-box">AstronomyBot 1.0</div>
+                <!-- Langsmith Evaluation Flow -->
+                <div class="evaluation-frame layout-box">Langsmith Evaluation</div>
+            </div>
+            <div class="col-lg-4 col-md-12 section-box">
+                <!-- Main chat container interface -->
+                <div class="mobile-frame layout-box">
+                    <!-- Chat box messages -->
+                    <div class="chat-box">
+                        <div class="chat-content" id="chat-content">
+                            <div class="message-bot">Hi! I'm AstronomyBot. Ask me anything about space! ✨</div>
+                        </div>
+                    </div>
+                    <!-- Input area -->
+                    <div class="input-area">
+                        <input type="text" id="user-input" placeholder="Type your question...">
+                        <button onclick="sendMessage()">Send</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 section-box">
+                <!-- AI Speech Frame -->
+                <div class="aispeech-frame layout-box">AI Speech</div>
+                <!-- AI Astronomy Images -->
+                <div class="image-frame layout-box">Images</div>
+            </div>
         </div>
     </div>
 
