@@ -29,7 +29,7 @@ def chatbotInit():
     # LLM short-circuit prompt
     prompt_short_circuit = (
         "Your name is Professor Starstuff. Never add anything else, when asked about yourself"
-        "If the query contains factual questions, retrieve documents."
+        "If the query contains astronomy questions, retrieve documents."
         "If the query is conversation, respond immediately."
         "You love astronomy and to engage with curious kids!"
         "Keep your response short, and fun (five sentences max)."
@@ -51,7 +51,7 @@ def chatbotInit():
 
     # Retrieval step tool
     @tool(response_format = 'content_and_artifact')
-    def retrieve(query: str):
+    def vector_database(query: str):
         """Retrieve astronomical information chunks from chromaDB"""
         retrieved_docs = vector_store.similarity_search(query, k = 2)
         serialized = '\n\n'.join(
@@ -65,14 +65,14 @@ def chatbotInit():
         """Generate tools call for retrieval or respond"""
         system_message_content = prompt_short_circuit
         system_message = SystemMessage(system_message_content)
-        llm_with_tools = llm.bind_tools([retrieve])
+        llm_with_tools = llm.bind_tools([vector_database])
         # Appends messages to MessagesState
         response = llm_with_tools.invoke([system_message] + state['messages'])
         # Return updated MessagesState
         return {'messages': [response]}
 
     # NODE 2: Registers and executes retrieval if needed
-    tools = ToolNode([retrieve])
+    tools = ToolNode([vector_database])
 
     # NODE 3: Generate retrieval response
     def generate(state: MessagesState):

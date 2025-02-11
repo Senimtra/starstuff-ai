@@ -75,10 +75,10 @@ const getResponse = (query) => {
 const testMessagesTexts = [
     '"Hello. I do have a question about the universe."',
     '"How hot is it on the sun?"',
-    '"Is it big?"',
+    '"And on Pluto?"',
     '"Would I be able to live on it?"',
     '"How about brown dwars? Are they real?"',
-    '"Do you know about Star Wars?"',
+    '"Have you ever met Luke Skywalker?"',
     '"Thank you. Have a nice day!"',
     "Go again? Press 'Reset' to flashy-thing my memory!",
 ];
@@ -90,7 +90,7 @@ const clickTestMessageButton = () => {
     if (testMessageState < 7) {
         testMessageState += 1;
     }
-    let inputField = document.getElementById('user-input');
+    let inputField = document.getElementById("user-input");
     inputField.value = testMessagesTexts[testMessageState - 1];
     testMessages(testMessageState);
     sendMessage();
@@ -98,17 +98,29 @@ const clickTestMessageButton = () => {
 
 // Function set memory reset button
 const setResetButton = () => {
-    let resetButton = document.getElementById('btnReset');
-    resetButton.addEventListener('click', () => {
-        buttons = document.querySelectorAll('.tmBtn');
-        buttons.forEach(element => {
-            element.removeEventListener('click', clickTestMessageButton);
+    let resetButton = document.getElementById("btnReset");
+    resetButton.addEventListener("click", () => {
+        buttons = document.querySelectorAll(".tmBtn");
+        buttons.forEach((element) => {
+            element.removeEventListener("click", clickTestMessageButton);
             element.disabled = true;
         });
         testMessageState = 0;
         testMessages(testMessageState);
+        let messageList = document.getElementById("chat-content");
+        messageList.innerHTML = `<div class="message-bot">Hi, I’m Professor Starstuff! 
+        ✨<br> Ask me anything about space, and let’s explore the universe together! 🚀</div>`;
+        // Send the POST request
+        fetch("/reset/", {
+            method: "POST",
+            headers: {
+                "X-CSRFToken": csrftoken,
+            },
+        }).then(() => {
+            console.log("Reset triggered");
+        });
     });
-}
+};
 
 // Function handle test messages
 const testMessages = (testMessageState) => {

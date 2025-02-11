@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .utils import chatbotInit, getMessage
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 import json
 
 # Global variables to store chatbot state
@@ -22,3 +22,10 @@ def response(request):
         response = getMessage(graph, config, query)
         context = {'response': response}
     return JsonResponse(context)
+
+# Reset Chatbot memory
+def reset(request):
+    if request.method == "POST":
+        global graph, config
+        graph, config = chatbotInit()
+    return HttpResponse(status = 204)
