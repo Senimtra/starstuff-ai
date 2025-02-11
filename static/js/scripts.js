@@ -34,7 +34,7 @@ const createStars = () => {
 };
 
 // Function user input & update chat box
-const sendMessage = (button) => {
+const sendMessage = () => {
     let input = document.getElementById("user-input").value;
     if (input.trim() !== "") {
         // Append user message
@@ -69,4 +69,64 @@ const getResponse = (query) => {
             newResponse.textContent = result.response;
             document.getElementById("chat-content").appendChild(newResponse);
         });
+};
+
+// Test messages
+const testMessagesTexts = [
+    '"Hello. I do have a question about the universe."',
+    '"How hot is it on the sun?"',
+    '"Is it big?"',
+    '"Would I be able to live on it?"',
+    '"How about brown dwars? Are they real?"',
+    '"Do you know about Star Wars?"',
+    '"Thank you. Have a nice day!"',
+    "Go again? Press 'Reset' to flashy-thing my memory!",
+];
+
+let testMessageState = 0;
+
+// Function test message event listener
+const clickTestMessageButton = () => {
+    if (testMessageState < 7) {
+        testMessageState += 1;
+    }
+    let inputField = document.getElementById('user-input');
+    inputField.value = testMessagesTexts[testMessageState - 1];
+    testMessages(testMessageState);
+    sendMessage();
+};
+
+// Function set memory reset button
+const setResetButton = () => {
+    let resetButton = document.getElementById('btnReset');
+    resetButton.addEventListener('click', () => {
+        buttons = document.querySelectorAll('.tmBtn');
+        buttons.forEach(element => {
+            element.removeEventListener('click', clickTestMessageButton);
+            element.disabled = true;
+        });
+        testMessageState = 0;
+        testMessages(testMessageState);
+    });
+}
+
+// Function handle test messages
+const testMessages = (testMessageState) => {
+    // Display test message
+    message = testMessagesTexts[testMessageState];
+    let testMessageDisplay = document.getElementById("test-message");
+    testMessageDisplay.innerText = message;
+    // Deactivate old test message button
+    if (testMessageState > 0) {
+        oldButton =
+            document.getElementsByClassName("tmBtn")[testMessageState - 1];
+        oldButton.disabled = true;
+    }
+    // Activate new test message button
+    if (testMessageState < 7) {
+        let activeButton =
+            document.getElementsByClassName("tmBtn")[testMessageState];
+        activeButton.disabled = false;
+        activeButton.addEventListener("click", clickTestMessageButton);
+    }
 };

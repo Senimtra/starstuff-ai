@@ -20,7 +20,27 @@
         <div class="row">
             <div class="col-lg-4 col-md-12 section-box">
                 <!-- AstronomyBot Header Image -->
-                <div class="header-frame layout-box">AstronomyBot 1.0</div>
+                <div class="header-frame layout-box">
+                    <h5>✨ Professor Starstuff</h5>
+                    <img src="{% static 'images/header_image.png' %}" alt="Professor Starstuff" />
+                </div>
+                <!-- Test Messages Buttons -->
+                <div class="test-messages-frame layout-box">
+                    <h5>❓ Test Messages</h5>
+                    <div class="test-buttons d-flex justify-content-between mt-1">
+                        <button type="button" id="btn1" class="tmBtn btn btn-sm btn-dark me-1" disabled>1</button>
+                        <button type="button" id="btn2" class="tmBtn btn btn-sm btn-dark me-1" disabled>2</button>
+                        <button type="button" id="btn3" class="tmBtn btn btn-sm btn-dark me-1" disabled>3</button>
+                        <button type="button" id="btn4" class="tmBtn btn btn-sm btn-dark me-1" disabled>4</button>
+                        <button type="button" id="btn5" class="tmBtn btn btn-sm btn-dark me-1" disabled>5</button>
+                        <button type="button" id="btn6" class="tmBtn btn btn-sm btn-dark me-1" disabled>6</button>
+                        <button type="button" id="btn7" class="tmBtn btn btn-sm btn-dark me-1" disabled>7</button>
+                        <button type="button" id="btnReset" class="btn btn-sm btn-danger">Reset</button>
+                    </div>
+                    <div class="test-message-display">
+                        💁 &nbsp;<span id="test-message"></span>
+                    </div>
+                </div>                
                 <!-- Langsmith Evaluation Flow -->
                 <div class="evaluation-frame layout-box">Langsmith Evaluation</div>
             </div>
@@ -30,7 +50,8 @@
                     <!-- Chat box messages -->
                     <div class="chat-box">
                         <div class="chat-content" id="chat-content">
-                            <div class="message-bot">Hi! I'm AstronomyBot. Ask me anything about space! ✨</div>
+                            <div class="message-bot">Hi, I’m Professor Starstuff! ✨<br> Ask me anything about space, and
+                                let’s explore the universe together! 🚀</div>
                         </div>
                     </div>
                     <!-- Input area -->
@@ -51,6 +72,8 @@
 
     <script>
         createStars();
+        testMessages(testMessageState);
+        setResetButton();
     </script>
 
 </body>

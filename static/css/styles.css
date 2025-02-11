@@ -31,8 +31,50 @@ body {
 }
 
 /* Header Frame Styles */
-.header-frame {
-    /* Inherits .layout-box styles */
+.header-frame img {
+    border-radius: 10px;
+}
+
+/* Test Messages Frame Styles */
+.test-messages-frame {
+    margin-top: 2em;
+}
+
+.test-message-display {
+    padding: 10px;
+    border-radius: 10px;
+    background: #353535;
+    margin-top: 0.7em;
+    height: 4.2em;
+}
+
+.test-message-display span {
+    font-size: 105%;
+    font-style: italic;
+}
+
+/* Test Message Button Glow */
+.tmBtn:not(:disabled) {
+    position: relative;
+    animation: glowEffect 0.5s infinite alternate ease-in-out;
+    box-shadow: 0 0 10px rgba(51, 255, 0, 0.596); /* Subtle initial glow */
+    border: 2px solid rgb(0, 145, 0);
+    background-color: rgba(0, 141, 0, 0.511);
+}
+
+/* Reset Button Styles */
+#btnReset {
+    border: 2px solid rgb(122, 0, 122);
+    background-color: rgba(128, 0, 128, 0.429);
+}
+
+@keyframes glowEffect {
+    0% {
+        box-shadow: 0 0 15px rgb(26, 255, 0, 1);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(30, 255, 0, 0.114);
+    }
 }
 
 /* Evaluation Frame Styles */
@@ -98,25 +140,26 @@ body {
     display: none;
 }
 
-.chat-content {
-}
-
 /* Message Box Styles */
 .message-box {
-    border: 1px solid green;
-    background-color: rgba(0, 128, 0, 0.2);
-    padding: 5px;
-    margin-top: 5px;
+    font-size: 0.9em;
+    border: 2px solid rgb(0, 145, 0);
+    background-color: rgba(0, 141, 0, 0.511);
+    padding: 4px 8px;
+    margin-top: 7px;
     border-radius: 10px;
+    border-bottom-right-radius: 0px;
 }
 
 /* Message Bot Styles */
 .message-bot {
-    border: 1px solid purple;
-    background-color: rgba(128, 0, 128, 0.2);
-    padding: 5px;
-    margin-top: 5px;
+    font-size: 0.9em;
+    border: 2px solid rgb(122, 0, 122);
+    background-color: rgba(128, 0, 128, 0.429);
+    padding: 4px 8px;
+    margin-top: 7px;
     border-radius: 10px;
+    border-top-left-radius: 0px;
 }
 
 /* Input Area Styles */
@@ -148,6 +191,4 @@ body {
 
 #user-input:focus {
     outline: none !important;
-    /* box-shadow: none !important; */
-    /* border-color: transparent !important; */
 }
