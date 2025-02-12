@@ -62,12 +62,16 @@ const getResponse = (query) => {
     })
         .then((response) => response.json())
         .then((result) => {
-            console.log(result.response);
+            console.log(result.response[0]);
             // Append chatbot message
             let newResponse = document.createElement("div");
             newResponse.classList.add("message-bot");
-            newResponse.textContent = result.response;
+            newResponse.textContent = result.response[0];
             document.getElementById("chat-content").appendChild(newResponse);
+            // Execute image insertion
+            if (result.response[1]) {
+                insertImages(result.response[1]);
+            }
         });
 };
 
@@ -141,4 +145,12 @@ const testMessages = (testMessageState) => {
         activeButton.disabled = false;
         activeButton.addEventListener("click", clickTestMessageButton);
     }
+};
+
+// Function insert retrieved image
+const insertImages = (images) => {
+    imageContainers = document.getElementsByClassName("nasa-image");
+    Array.from(imageContainers).forEach((el, i) => {
+        el.innerHTML = `<img src="${images[i]}">`;
+    });
 };

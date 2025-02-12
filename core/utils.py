@@ -1,5 +1,7 @@
 import os
 import uuid
+import json
+import requests
 
 from dotenv import load_dotenv
 
@@ -18,6 +20,9 @@ os.environ['LANGSMITH_TRACING'] = 'true'
 os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 
+# Last image search container
+last_image_search = None
+
 def chatbotInit():
     # Chat Model
     llm = ChatOpenAI(model = 'gpt-4o-mini')
@@ -28,15 +33,21 @@ def chatbotInit():
 
     # LLM short-circuit prompt
     prompt_short_circuit = (
+        "You **must always call** the `vector_db` tool **before responding to any query** to retrieve relevant documents."
+        "You **must also call** the `nasa_images` tool **before generating a response** if the request is about space, astronomy, or NASA-related topics."
+        "You **must never generate a response** without first calling both tools in sequence."
         "Your name is Professor Starstuff. Never add anything else, when asked about yourself"
-        "If the query contains astronomy questions, retrieve documents."
         "If the query is conversation, respond immediately."
         "You love astronomy and to engage with curious kids!"
         "Keep your response short, and fun (five sentences max)."
         "Add single relevant emojies within the text."
         "Always make sure to end the response with an emoji."
+        "\n\n"
+        "When using the `nasa_images` tool, provide only a single word as input."
+        "This word should represent the main object of the query."
+        "Such as the singular name of a celestial body or astronomical object."
     )
-
+    
     # Retrieval step prompt
     prompt_retrieval = """
         Your name is Professor Starstuff. Never add anything else, when asked about yourself. 
@@ -49,30 +60,53 @@ def chatbotInit():
         Add single relevant emojies within the text. Always make sure to end the response with a single emoji.
         """
 
-    # Retrieval step tool
-    @tool(response_format = 'content_and_artifact')
-    def vector_database(query: str):
+    # Vector Store retrieval step tool
+    @tool(response_format = 'content')
+    def vector_db(query: str):
         """Retrieve astronomical information chunks from chromaDB"""
         retrieved_docs = vector_store.similarity_search(query, k = 2)
         serialized = '\n\n'.join(
             (f"Source: {doc.metadata}\nContent: {doc.page_content}")
             for doc in retrieved_docs
         )
-        return serialized, retrieved_docs
+        return serialized
     
+    # NASA Images retrieval step tool
+    @tool(response_format = 'content')
+    def nasa_images(search_word: str):
+        """Fetch relevant space images from NASA Images Api"""
+        global last_image_search
+        if search_word != last_image_search:
+            BASE_URL = 'https://images-api.nasa.gov/search'
+            params = {
+                'q': search_word,
+                'media_type': 'image',
+            }
+            response = requests.get(BASE_URL, params = params)
+            data = response.json()
+            items = data.get('collection').get('items')
+            # Get the first image objects
+            images = [item.get('links') for item in items[:1]]
+            # Get the image links
+            image_links = [image[0]['href'] for image in images]
+            # Update last search string
+            last_image_search = search_word
+
+            return image_links
+
     # NODE 1: LLM decides to retrieve documents or respond immediately
     def query_or_respond(state: MessagesState):
         """Generate tools call for retrieval or respond"""
         system_message_content = prompt_short_circuit
         system_message = SystemMessage(system_message_content)
-        llm_with_tools = llm.bind_tools([vector_database])
+        llm_with_tools = llm.bind_tools([vector_db, nasa_images])
         # Appends messages to MessagesState
         response = llm_with_tools.invoke([system_message] + state['messages'])
         # Return updated MessagesState
         return {'messages': [response]}
 
     # NODE 2: Registers and executes retrieval if needed
-    tools = ToolNode([vector_database])
+    tools = ToolNode([vector_db, nasa_images])
 
     # NODE 3: Generate retrieval response
     def generate(state: MessagesState):
@@ -138,13 +172,25 @@ def chatbotInit():
 
     return graph, config
 
+
 def getMessage(graph, config, query):
     """Processes user query using pipeline"""
+
+    image_links = None
+    
     for step in graph.stream(
         {'messages': [{'role': 'user', 'content': query}]},
-        stream_mode = 'values',
-        config = config
+        stream_mode='values',
+        config=config
     ):
         step['messages'][-1].pretty_print()
-        response = step['messages'][-1].content
+
+    for msg in step["messages"]:
+        if getattr(msg, "name", None) == "nasa_images":
+            image_links = json.loads(msg.content)
+
+    message = step["messages"][-1].content
+
+    response = (message, image_links)
+
     return response
