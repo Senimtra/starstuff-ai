@@ -111,10 +111,16 @@ const setResetButton = () => {
         });
         testMessageState = 0;
         testMessages(testMessageState);
+        // Reset messages
         let messageList = document.getElementById("chat-content");
         messageList.innerHTML = `<div class="message-bot">Hi, I’m Professor Starstuff! 
         ✨<br> Ask me anything about space, and let’s explore the universe together! 🚀</div>`;
-        // Send the POST request
+        // Reset space image
+        let imageBox = document.getElementsByClassName("nasa-image");
+        Array.from(
+            imageBox
+        )[0].innerHTML = `<img src="/static/images/shutter.png" alt="Camera shutter" />`;
+        //Send the POST request
         fetch("/reset/", {
             method: "POST",
             headers: {

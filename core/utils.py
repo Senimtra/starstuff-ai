@@ -29,7 +29,11 @@ def chatbotInit():
     # Embeddings Model
     embeddings = OpenAIEmbeddings(model = 'text-embedding-3-large')
     # Chroma DB Vector Store
-    vector_store = Chroma(persist_directory = '../chroma_db', embedding_function = embeddings)
+    vector_store = Chroma(persist_directory = 'chroma_db', embedding_function = embeddings)
+
+    # Reset (button) clear search (image)
+    global last_image_search
+    last_image_search = None
 
     # LLM short-circuit prompt
     prompt_short_circuit = (
@@ -64,7 +68,7 @@ def chatbotInit():
     @tool(response_format = 'content')
     def vector_db(query: str):
         """Retrieve astronomical information chunks from chromaDB"""
-        retrieved_docs = vector_store.similarity_search(query, k = 2)
+        retrieved_docs = vector_store.similarity_search(query, k = 1)
         serialized = '\n\n'.join(
             (f"Source: {doc.metadata}\nContent: {doc.page_content}")
             for doc in retrieved_docs
