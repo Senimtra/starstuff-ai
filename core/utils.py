@@ -23,9 +23,19 @@ os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 # Last image search container
 last_image_search = None
 
+# Podcast setup
+podcast_setup = {
+    'topic': None,
+    'teaser': None,
+    'llm': 'gpt-4o-mini',
+    'queries': []
+}
+
 def chatbotInit():
     # Chat Model
     llm = ChatOpenAI(model = 'gpt-4o-mini')
+    # Podcast Teaser Model
+    llm_podcast = ChatOpenAI(model = 'gpt-3.5-turbo')
     # Embeddings Model
     embeddings = OpenAIEmbeddings(model = 'text-embedding-3-large')
     # Chroma DB Vector Store
@@ -38,12 +48,12 @@ def chatbotInit():
     # LLM short-circuit prompt
     prompt_short_circuit = (
         "You **must always call** the `vector_db` tool **before responding to any query** to retrieve relevant documents."
-        "You **must also call** the `nasa_images` tool **before generating a response** if the request is about space, astronomy, or NASA-related topics."
-        "You **must never generate a response** without first calling both tools in sequence."
+        "You **MUST ALSO CALL** the `nasa_images` tool **before generating a response** if the request is about space, astronomy, or NASA-related topics."
+        "If you called the `nasa_images` tool, also call the `podcast` tool."
         "Your name is Professor Starstuff. Never add anything else, when asked about yourself"
         "If the query is conversation, respond immediately."
         "You love astronomy and to engage with curious kids!"
-        "Keep your response short, and fun (five sentences max)."
+        "Keep your response short, and fun (four sentences max)."
         "Add single relevant emojies within the text."
         "Always make sure to end the response with an emoji."
         "\n\n"
@@ -58,7 +68,7 @@ def chatbotInit():
         You're a friendly and enthusiastic astronomy teacher who loves explaining space facts to curious kids! 
         Use the following pieces of context to answer the question at the end in a fun, simple, and engaging way. 
         If you don't know the answer, just say that you don't know—it's okay to be honest! 
-        Keep your explanation short, fun, and easy to understand (five sentences max). 
+        Keep your explanation short, fun, and easy to understand (four sentences max). 
         Use playful language, examples, or comparisons to make the answer exciting for kids. 
         Always end with an encouraging phrase like "Keep looking up!" or "Space is awesome, isn't it?" to keep them excited about learning. 
         Add single relevant emojies within the text. Always make sure to end the response with a single emoji.
@@ -97,20 +107,44 @@ def chatbotInit():
             last_image_search = search_word
 
             return image_links
+        
+    # Podcast initialization step tool
+    @tool(response_format = 'content')
+    def podcast(search_word:str, query: str):
+        """Initialize podcast"""
+        # Update podcast (new topic)
+        if search_word != podcast_setup['topic']:
+            podcast_setup['topic'] = search_word
+            podcast_setup['queries'] = [query]
+        # Update podcast (add message)
+        else:
+            podcast_setup['queries'].append(query)
+
+        podcast_teaser_prompt = f"""
+            You are Professor Starstuff, an engaging astronomy educator for kids!
+            Generate a short podcast-style **teaser script** (1 sentence) based 
+            on the topic: '{podcast_setup['topic']}'.
+            Make it fun, exciting, and full of wonder! 
+            End with a hook to keep kids curious for the full episode.
+            """
+
+        podcast_setup['teaser'] = llm_podcast.invoke(podcast_teaser_prompt).content
+
+        return podcast_setup   
 
     # NODE 1: LLM decides to retrieve documents or respond immediately
     def query_or_respond(state: MessagesState):
         """Generate tools call for retrieval or respond"""
         system_message_content = prompt_short_circuit
         system_message = SystemMessage(system_message_content)
-        llm_with_tools = llm.bind_tools([vector_db, nasa_images])
+        llm_with_tools = llm.bind_tools([vector_db, nasa_images, podcast])
         # Appends messages to MessagesState
         response = llm_with_tools.invoke([system_message] + state['messages'])
         # Return updated MessagesState
         return {'messages': [response]}
 
     # NODE 2: Registers and executes retrieval if needed
-    tools = ToolNode([vector_db, nasa_images])
+    tools = ToolNode([vector_db, nasa_images, podcast])
 
     # NODE 3: Generate retrieval response
     def generate(state: MessagesState):
@@ -138,7 +172,7 @@ def chatbotInit():
 
         prompt = [SystemMessage(system_message_content)] + conversation_history
 
-        response = llm.invoke(prompt)
+        response = llm_podcast.invoke(prompt)
         return {'messages': [response]}
 
     # Initialize the Graph
@@ -181,6 +215,7 @@ def getMessage(graph, config, query):
     """Processes user query using pipeline"""
 
     image_links = None
+    podcast_teaser = None
     
     for step in graph.stream(
         {'messages': [{'role': 'user', 'content': query}]},
@@ -192,9 +227,11 @@ def getMessage(graph, config, query):
     for msg in step["messages"]:
         if getattr(msg, "name", None) == "nasa_images":
             image_links = json.loads(msg.content)
+        if getattr(msg, "name", None) == "podcast":
+            podcast_teaser = msg.content
 
     message = step["messages"][-1].content
 
-    response = (message, image_links)
+    response = (message, image_links, podcast_teaser)
 
     return response

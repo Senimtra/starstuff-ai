@@ -76,8 +76,8 @@
                 <!-- Langsmith Evaluation Flow -->
                 <div class="evaluation-frame layout-box">
                     <h5>🕵️ Langsmith Evaluation</h5>
-                    <a href="https://smith.langchain.com/public/91da4d01-feee-4d41-8693-ad61fc50669a/r" target="_blank"><img
-                            src="{% static 'images/langgraph.png' %}" alt="Langsmith" /></a>
+                    <a href="https://smith.langchain.com/public/91da4d01-feee-4d41-8693-ad61fc50669a/r"
+                        target="_blank"><img src="{% static 'images/langgraph.png' %}" alt="Langsmith" /></a>
                 </div>
             </div>
         </div>
@@ -87,6 +87,8 @@
         createStars();
         testMessages(testMessageState);
         setResetButton();
+        const resetButton = document.getElementById('btnReset');
+        resetButton.click();
     </script>
 
 </body>
