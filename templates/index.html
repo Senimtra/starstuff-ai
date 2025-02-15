@@ -19,15 +19,14 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-4 col-md-12 section-box">
-                <!-- AstronomyBot Header Image -->
+                <!-- Starstuff Header Image -->
                 <div class="header-frame layout-box">
                     <h5>✨ Professor Starstuff</h5>
-                    <img src="{% static 'images/header_image.png' %}" alt="Professor Starstuff" />
+                    <img src="{% static 'images/starstuff.png' %}" alt="Professor Starstuff" />
                 </div>
                 <!-- Test Messages Buttons -->
                 <div class="test-messages-frame layout-box">
-                    <h5>❓ Test Messages</h5>
-                    <div class="test-buttons d-flex justify-content-between mt-1">
+                    <div class="test-buttons d-flex justify-content-between">
                         <button type="button" id="btn1" class="tmBtn btn btn-sm btn-dark me-1" disabled>1</button>
                         <button type="button" id="btn2" class="tmBtn btn btn-sm btn-dark me-1" disabled>2</button>
                         <button type="button" id="btn3" class="tmBtn btn btn-sm btn-dark me-1" disabled>3</button>
@@ -38,12 +37,11 @@
                         <button type="button" id="btnReset" class="btn btn-sm btn-danger">Reset</button>
                     </div>
                     <div class="test-message-display">
-                        💁 &nbsp;<span id="test-message"></span>
+                        <div id="test-message">👨🏾‍🚀 <span id="test-message-text"></span></div>
                     </div>
-                </div>
-                <!-- AI Speech Frame -->
-                <div class="aispeech-frame layout-box">
-                    <h5>🎙️ AI Speech</h5>
+                    <a href="https://smith.langchain.com/public/e64aed79-7c5f-44ad-8864-95f8cd070cd0/r" target="_blank">
+                        <button type="button" id="langSmith" class="btn btn-sm btn-dark mt-3">Langsmith</button>
+                    </a>
                 </div>
             </div>
             <div class="col-lg-4 col-md-12 section-box">
@@ -64,20 +62,27 @@
                 </div>
             </div>
             <div class="col-lg-4 col-md-12 section-box">
-                <!-- AI Astronomy Images -->
-                <div class="image-frame layout-box">
-                    <h5>🪐 Suggested Images</h5>
-                    <div class="d-flex mt-1">
+                <!-- Current Topic of the Discussion -->
+                <div class="topic-frame layout-box">
+                    <h5>🌌 Current Topic: ...</h5>
+                    <div class="topic-message-display">
+                        <span id="topic-message">🧙‍♂️ <em>"Topic updates as we chat! Let's go!"</em></span>
+                    </div>
+                </div>
+                <!-- NASA Astronomy Images -->
+                <div class="nasa-frame layout-box">
+                    <h5>🪐 Images from NASA</h5>
+                    <div class="d-flex">
                         <div class="nasa-image">
                             <img src="{% static 'images/shutter.png' %}" alt="Camera shutter" />
                         </div>
                     </div>
                 </div>
-                <!-- Langsmith Evaluation Flow -->
-                <div class="evaluation-frame layout-box">
-                    <h5>🕵️ Langsmith Evaluation</h5>
-                    <a href="https://smith.langchain.com/public/91da4d01-feee-4d41-8693-ad61fc50669a/r"
-                        target="_blank"><img src="{% static 'images/langgraph.png' %}" alt="Langsmith" /></a>
+                <!-- Podcast -->
+                <div class="podcast-frame layout-box">
+                    <h5>🎙️ Podcast</h5>
+                    <div class="podcast-box">
+                    </div>
                 </div>
             </div>
         </div>
