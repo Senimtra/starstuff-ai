@@ -62,6 +62,7 @@ body {
     padding: 4px 8px;
     border-radius: 10px;
     border-bottom-right-radius: 0px;
+    height: 3.9em;
 }
 
 #test-message-text {
@@ -75,6 +76,7 @@ body {
     animation: glowEffect 0.5s infinite alternate ease-in-out;
     box-shadow: 0 0 10px rgba(51, 255, 0, 0.596); /* Subtle initial glow */
     border: 2px solid rgb(0, 145, 0);
+    border-bottom-right-radius: 0px;
     background-color: rgba(0, 141, 0, 0.511);
 }
 
@@ -82,6 +84,7 @@ body {
 #btnReset {
     border: 2px solid rgb(122, 0, 122);
     background-color: rgba(82, 0, 82, 0.7);
+    border-top-left-radius: 0px;
 }
 
 @keyframes glowEffect {
@@ -94,7 +97,22 @@ body {
 }
 
 /* Topic Frame Styles */
-.topic-frame {
+.topic-frame h5 span {
+    font-size: 0.8em;
+    font-style: italic;
+    animation: pulseText 2.25s infinite;
+}
+
+@keyframes pulseText {
+    0% {
+        opacity: 0.06;
+    }
+    50% {
+        opacity: 0.4;
+    }
+    100% {
+        opacity: 0.06;
+    }
 }
 
 .topic-message-display {

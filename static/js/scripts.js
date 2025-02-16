@@ -40,11 +40,13 @@ const sendMessage = () => {
         // Append user message
         let newMessage = document.createElement("div");
         newMessage.classList.add("message-box");
-        newMessage.textContent = input;
+        newMessage.textContent = input.slice(1, -1);
         document.getElementById("chat-content").appendChild(newMessage);
         document.getElementById("user-input").value = "";
         document.getElementById("user-input").focus();
-        console.log(input);
+        input = input.trim().replace(/^"|"$/g, "");
+        input = `"${input}"`;
+        console.log(input); // Output: `"Hello, world!"`
         getResponse(input);
     }
 };
@@ -72,6 +74,7 @@ const getResponse = (query) => {
             if (result.response[1]) {
                 insertImages(result.response[1]);
             }
+            console.log(result.response[2]);
         });
 };
 
@@ -84,7 +87,7 @@ const testMessagesTexts = [
     '"How about brown dwars? Are they real?"',
     '"Have you ever met Luke Skywalker?"',
     '"Thank you. Have a nice day!"',
-    "Go again? Press 'Reset' to flashy-thing my memory!",
+    `"Go again? Press 'Reset' to flashy-thing my memory! "`,
 ];
 
 let testMessageState = 0;
@@ -136,8 +139,24 @@ const setResetButton = () => {
 const testMessages = (testMessageState) => {
     // Display test message
     message = testMessagesTexts[testMessageState];
-    let testMessageDisplay = document.getElementById("test-message");
+    let testMessageDisplay = document.getElementById("test-message-text");
     testMessageDisplay.innerText = message;
+    let messageBox = document.getElementById("test-message");
+    if (testMessageState == 7) {
+        // Toggle color messages/reset (to purple)
+        messageBox.style.borderColor = "rgb(122, 0, 122)";
+        messageBox.style.backgroundColor = "rgba(82, 0, 82, 0.7)";
+        messageBox.style.borderBottomRightRadius = "10px";
+        messageBox.style.borderTopLeftRadius = "0px";
+        document.getElementById("test-message-emoji").innerText = "🧙‍♂️ ";
+    } else if (testMessageState == 0) {
+        // Toggle color messages/reset (to green)
+        messageBox.style.borderColor = "rgb(0, 145, 0)";
+        messageBox.style.backgroundColor = "rgba(0, 95, 0, 0.85)";
+        messageBox.style.borderBottomRightRadius = "0px";
+        messageBox.style.borderTopLeftRadius = "10px";
+        document.getElementById("test-message-emoji").innerText = "👨🏾‍🚀 ";
+    }
     // Deactivate old test message button
     if (testMessageState > 0) {
         oldButton =
