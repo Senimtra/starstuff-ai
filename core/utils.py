@@ -2,6 +2,7 @@ import os
 import uuid
 import json
 import requests
+import redis
 
 from dotenv import load_dotenv
 
@@ -12,13 +13,21 @@ from langchain_core.messages import SystemMessage
 
 from langgraph.graph import MessagesState, StateGraph, END
 from langgraph.prebuilt import ToolNode, tools_condition
-from langgraph.checkpoint.memory import MemorySaver
+
 
 load_dotenv('../.env')
 
-os.environ['LANGSMITH_TRACING'] = 'true'
-os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
+# os.environ['LANGSMITH_TRACING'] = 'true'
+# os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
+os.environ['REDIS_URL'] = os.getenv('REDIS_URL')
+
+# Connect to Redis
+redis_client = redis.from_url(
+    os.getenv('REDIS_URL', 'redis://127.0.0.1:6379/1'),
+    decode_responses = True,
+    ssl_cert_reqs = None  # disable SSL verification
+)
 
 # Last image search container
 last_image_search = None
@@ -31,9 +40,12 @@ podcast_setup = {
     'queries': []
 }
 
+
+# Initialize Chatbot
 def chatbotInit():
+    session_key = str(uuid.uuid4())
     # Chat Model
-    llm = ChatOpenAI(model = 'gpt-4o-mini')
+    llm = ChatOpenAI(model = 'gpt-4o')
     # Podcast Teaser Model
     llm_podcast = ChatOpenAI(model = 'gpt-3.5-turbo')
     # Embeddings Model
@@ -61,7 +73,7 @@ def chatbotInit():
         "This word should represent the main object of the query."
         "Such as the singular name of a celestial body or astronomical object."
     )
-    
+
     # Retrieval step prompt
     prompt_retrieval = """
         Your name is Professor Starstuff. Never add anything else, when asked about yourself. 
@@ -92,10 +104,7 @@ def chatbotInit():
         global last_image_search
         if search_word != last_image_search:
             BASE_URL = 'https://images-api.nasa.gov/search'
-            params = {
-                'q': search_word,
-                'media_type': 'image',
-            }
+            params = {'q': search_word, 'media_type': 'image'}
             response = requests.get(BASE_URL, params = params)
             data = response.json()
             items = data.get('collection').get('items')
@@ -105,9 +114,8 @@ def chatbotInit():
             image_links = [image[0]['href'] for image in images]
             # Update last search string
             last_image_search = search_word
-
             return image_links
-        
+
     # Podcast initialization step tool
     @tool(response_format = 'content')
     def podcast(search_word:str, query: str):
@@ -119,7 +127,6 @@ def chatbotInit():
         # Update podcast (add message)
         else:
             podcast_setup['queries'].append(query)
-
         podcast_teaser_prompt = f"""
             You are Professor Starstuff, an engaging astronomy educator for kids!
             Generate a short podcast-style **teaser script** (1 sentence) based 
@@ -127,9 +134,7 @@ def chatbotInit():
             Make it fun, exciting, and full of wonder! 
             End with a hook to keep kids curious for the full episode.
             """
-
         podcast_setup['teaser'] = llm_podcast.invoke(podcast_teaser_prompt).content
-
         return podcast_setup   
 
     # NODE 1: LLM decides to retrieve documents or respond immediately
@@ -138,12 +143,12 @@ def chatbotInit():
         system_message_content = prompt_short_circuit
         system_message = SystemMessage(system_message_content)
         llm_with_tools = llm.bind_tools([vector_db, nasa_images, podcast])
-        # Appends messages to MessagesState
+        # Append messages to MessagesState
         response = llm_with_tools.invoke([system_message] + state['messages'])
         # Return updated MessagesState
         return {'messages': [response]}
 
-    # NODE 2: Registers and executes retrieval if needed
+    # NODE 2: Registers and executes tools if needed
     tools = ToolNode([vector_db, nasa_images, podcast])
 
     # NODE 3: Generate retrieval response
@@ -158,20 +163,16 @@ def chatbotInit():
                 break
         # Restore chronological order
         tool_messages = recent_tool_messages[::-1]
-
         # Format into retrieval prompt
         docs_content = '\n\n'.join(doc.content for doc in tool_messages)
         system_message_content = f"{prompt_retrieval}\n\n{docs_content}"
-
         conversation_history = [
             message for message in state['messages']
             if message.type in ('human', 'system')
             # Exclude AI tool call messages
             or (message.type == 'ai' and not message.tool_calls)
         ]
-
         prompt = [SystemMessage(system_message_content)] + conversation_history
-
         response = llm_podcast.invoke(prompt)
         return {'messages': [response]}
 
@@ -197,40 +198,46 @@ def chatbotInit():
     graph_builder.add_edge('tools', 'generate')
     graph_builder.add_edge('generate', END)
 
-    # Simple in-memory checkpointer
-    memory = MemorySaver()
-
     # Compile the Graph
-    graph = graph_builder.compile(checkpointer = memory)
+    graph = graph_builder.compile()
 
-    # Set session thread_id
-    config = {'configurable': {'thread_id': str(uuid.uuid4())}}
+    # Store chatbot state in Redis and store empty conversation
+    redis_client.set(session_key, json.dumps([]))
 
     print('Chatbot initialized...')
 
-    return graph, config
+    return graph, session_key
 
 
-def getMessage(graph, config, query):
-    """Processes user query using pipeline"""
-
+# Get message response
+def getMessage(graph, session_key, query):
+    """Processes user query"""
+    # Load chatbot history from Redis
+    conversation_history = json.loads(redis_client.get(session_key) or "[]")
+    # Set tool data containers
     image_links = None
     podcast_teaser = None
-    
+
     for step in graph.stream(
-        {'messages': [{'role': 'user', 'content': query}]},
-        stream_mode='values',
-        config=config
+        # Append new query
+        {'messages': conversation_history + [{'role': 'user', 'content': query}]},
+        stream_mode = 'values'
     ):
         step['messages'][-1].pretty_print()
 
-    for msg in step["messages"]:
-        if getattr(msg, "name", None) == "nasa_images":
+    # Extract tools data
+    for msg in step['messages']:
+        if getattr(msg, 'name', None) == 'nasa_images':
             image_links = json.loads(msg.content)
-        if getattr(msg, "name", None) == "podcast":
-            podcast_teaser = msg.content
+        if getattr(msg, 'name', None) == 'podcast':
+            podcast_teaser = json.loads(msg.content)
 
-    message = step["messages"][-1].content
+    message = step['messages'][-1].content
+
+    # Update conversation history
+    conversation_history.append({'role': 'user', 'content': query})
+    conversation_history.append({'role': 'assistant', 'content': message})
+    redis_client.set(session_key, json.dumps(conversation_history))
 
     response = (message, image_links, podcast_teaser)
 
