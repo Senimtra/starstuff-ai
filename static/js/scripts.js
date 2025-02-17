@@ -1,3 +1,7 @@
+// Shuffle images
+let imageShuffle;
+let shufflePosition;
+
 // Function to get CSRF token from the cookie
 const getCookie = (name) => {
     let cookieValue = null;
@@ -73,20 +77,38 @@ const getResponse = (query) => {
             // Execute image insertion
             if (result.response[1]) {
                 insertImages(result.response[1]);
+                // Set shuffle vars
+                imageShuffle = result.response[1];
+                shufflePosition = [
+                    ...Array(imageShuffle.length - 1).keys(),
+                ].map((n) => n + 1);
             }
             if (result.response[2]) {
-                setTopic(result.response[2]["topic"]);
+                topic = result.response[2]["topic"];
+                // Set topic
+                setTopic(topic);
+                // Set image shuffle
+                setShuffle(topic);
             } else {
                 console.log("no topic set");
             }
         });
 };
 
+// Image container set shuffle
+const setShuffle = (topic) => {
+    let shuffleButton = document.getElementById("shuffle-button");
+    if (topic && shuffleButton.innerText != topic) {
+        shuffleButton.style.display = "block";
+        shuffleButton.addEventListener("click", shuffleImages);
+    }
+};
+
 // Topic container insert topic
 const setTopic = (topic) => {
     console.log(topic);
     let topicHeader = document.getElementById("topic-header");
-    topicHeader.innerText = "🌌 It's about: ";
+    topicHeader.innerText = "🌌 Our Topic";
     let topicSet = document.getElementById("topic-text");
     topicSet.innerText = topic.toUpperCase();
     topicSet.classList.replace("topic-not", "topic-set");
@@ -96,9 +118,9 @@ const setTopic = (topic) => {
 const testMessagesTexts = [
     '"Hello. I do have a question about the universe."',
     '"How hot is it on the sun?"',
-    '"And on Pluto?"',
-    '"How about brown dwars? Are they real?"',
-    '"Would I be able to live on it?"',
+    '"And on Jupiter?"',
+    '"How about brown dwarfs? Are they real?"',
+    '"Would I be able to live on them?"',
     '"Have you ever met Luke Skywalker?"',
     '"Do you know his father?"',
     `"Go again? Press 'Reset' to flashy-thing my memory! "`,
@@ -136,10 +158,12 @@ const setResetButton = () => {
         let topicHeader = document.getElementById("topic-header");
         topicHeader.innerText = "🌌 Current Topic? ";
         let topicSet = document.getElementById("topic-text");
-        topicSet.innerHTML = " &nbsp;... nah, not yet.";
+        topicSet.innerHTML = "... waiting";
         topicSet.classList.replace("topic-set", "topic-not");
         // Reset NASA images container
         let imageBox = document.getElementsByClassName("nasa-image");
+        let shuffleButton = document.getElementById("shuffle-button");
+        shuffleButton.style.display = "none";
         Array.from(
             imageBox
         )[0].innerHTML = `<img src="/static/images/shutter.png" alt="Camera shutter" />`;
@@ -198,4 +222,21 @@ const insertImages = (images) => {
     Array.from(imageContainers).forEach((el, i) => {
         el.innerHTML = `<img src="${images[i]}">`;
     });
+};
+
+// Function shuffle topic images
+const shuffleImages = () => {
+    // Pick a random index
+    let randomPick = Math.floor(Math.random() * shufflePosition.length);
+    imageContainers = document.getElementsByClassName("nasa-image");
+    randomPick = shufflePosition.splice(randomPick, 1)[0];
+    Array.from(
+        imageContainers
+    )[0].innerHTML = `<img src="${imageShuffle[randomPick]}">`;
+    // Refill shuffle array
+    if (shufflePosition.length == 0) {
+        shufflePosition = [...Array(imageShuffle.length - 1).keys()].map(
+            (n) => n + 1
+        );
+    }
 };

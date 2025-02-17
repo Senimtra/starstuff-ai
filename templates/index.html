@@ -67,10 +67,9 @@
             <div class="col-lg-4 col-md-12 section-box">
                 <!-- Current Topic of the Discussion -->
                 <div class="topic-frame layout-box">
-                    <div class="d-flex">
-                        <h5 id="topic-header">🌌 Current Topic? </h5><span id="topic-text" class="topic-not"> &nbsp;...
-                            nah, not
-                            yet.</span>
+                    <div class="d-flex justify-content-between">
+                        <h5 id="topic-header">🌌 Current Topic? </h5><span id="topic-text" class="topic-not me-2">...
+                            waiting</span>
                     </div>
                     <div class="topic-message-display">
                         <span id="topic-message">🧙‍♂️ <em>"Our topic updates as we chat!"</em></span>
@@ -78,7 +77,10 @@
                 </div>
                 <!-- NASA Astronomy Images -->
                 <div class="nasa-frame layout-box">
-                    <h5>🪐 Images from NASA</h5>
+                    <div class="d-flex justify-content-between">
+                        <h5>🪐 NASA Images</h5>
+                        <div id="shuffle-button" class="btn btn-warning me-1">Shuffle</div>
+                    </div>
                     <div class="d-flex">
                         <div class="nasa-image">
                             <img src="{% static 'images/shutter.png' %}" alt="Camera shutter" />

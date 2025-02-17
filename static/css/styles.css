@@ -98,17 +98,15 @@ body {
 
 /* Topic Frame Styles */
 .topic-not {
-    font-size: 1em;
+    font-size: 1.15em;
     font-style: italic;
     animation: pulseText 2.25s infinite;
-    padding-top: 0.15em;
 }
 
 .topic-set {
-    margin-left: 0.5em;
     font-size: 1.15em;
     font-style: italic;
-    font-weight: bold;
+    font-weight: 900;
     color: rgb(255, 204, 0);
 }
 
@@ -161,6 +159,29 @@ body {
     object-fit: cover;
     border-radius: 10px;
     border: 2px solid rgb(33, 33, 33);
+}
+
+#shuffle-button {
+    height: 2em;
+    font-size: 0.7em;
+    font-style: italic;
+    font-weight: 500;
+    padding: 0 0.6em;
+    border-radius: 0.5em;
+    display: none;
+    color: rgb(244, 191, 0);
+    border: 2px solid rgb(255, 208, 0);
+    background-color: rgba(141, 115, 0, 0.511);
+    animation: shuffleGlow 0.75s infinite alternate ease-in-out;
+}
+
+@keyframes shuffleGlow {
+    0% {
+        box-shadow: 0 0 15px rgb(255, 217, 0);
+    }
+    100% {
+        box-shadow: 0 0 20px rgba(255, 230, 0, 0.114);
+    }
 }
 
 /* Mobile Frame Styles */
