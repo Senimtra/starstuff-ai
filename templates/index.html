@@ -67,7 +67,11 @@
             <div class="col-lg-4 col-md-12 section-box">
                 <!-- Current Topic of the Discussion -->
                 <div class="topic-frame layout-box">
-                    <h5>🌌 Current Topic? <span> &nbsp;... nah, not yet.</span></h5>
+                    <div class="d-flex">
+                        <h5 id="topic-header">🌌 Current Topic? </h5><span id="topic-text" class="topic-not"> &nbsp;...
+                            nah, not
+                            yet.</span>
+                    </div>
                     <div class="topic-message-display">
                         <span id="topic-message">🧙‍♂️ <em>"Our topic updates as we chat!"</em></span>
                     </div>
@@ -95,8 +99,8 @@
         createStars();
         testMessages(testMessageState);
         setResetButton();
-        const resetButton = document.getElementById('btnReset');
-        resetButton.click();
+        // const resetButton = document.getElementById('btnReset');
+        // resetButton.click();
     </script>
 
 </body>

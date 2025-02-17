@@ -74,8 +74,22 @@ const getResponse = (query) => {
             if (result.response[1]) {
                 insertImages(result.response[1]);
             }
-            console.log(result.response[2]);
+            if (result.response[2]) {
+                setTopic(result.response[2]["topic"]);
+            } else {
+                console.log("no topic set");
+            }
         });
+};
+
+// Topic container insert topic
+const setTopic = (topic) => {
+    console.log(topic);
+    let topicHeader = document.getElementById("topic-header");
+    topicHeader.innerText = "🌌 It's about: ";
+    let topicSet = document.getElementById("topic-text");
+    topicSet.innerText = topic.toUpperCase();
+    topicSet.classList.replace("topic-not", "topic-set");
 };
 
 // Test messages
@@ -83,10 +97,10 @@ const testMessagesTexts = [
     '"Hello. I do have a question about the universe."',
     '"How hot is it on the sun?"',
     '"And on Pluto?"',
-    '"Would I be able to live on it?"',
     '"How about brown dwars? Are they real?"',
+    '"Would I be able to live on it?"',
     '"Have you ever met Luke Skywalker?"',
-    '"Thank you. Have a nice day!"',
+    '"Do you know his father?"',
     `"Go again? Press 'Reset' to flashy-thing my memory! "`,
 ];
 
@@ -107,7 +121,7 @@ const clickTestMessageButton = () => {
 const setResetButton = () => {
     let resetButton = document.getElementById("btnReset");
     resetButton.addEventListener("click", () => {
-        buttons = document.querySelectorAll(".tmBtn");
+        let buttons = document.querySelectorAll(".tmBtn");
         buttons.forEach((element) => {
             element.removeEventListener("click", clickTestMessageButton);
             element.disabled = true;
@@ -118,7 +132,13 @@ const setResetButton = () => {
         let messageList = document.getElementById("chat-content");
         messageList.innerHTML = `<div class="message-bot">Hi, I’m Professor Starstuff! 
         ✨<br> Ask me anything about space, and let’s explore the universe together! 🚀</div>`;
-        // Reset space image
+        // Reset topic container
+        let topicHeader = document.getElementById("topic-header");
+        topicHeader.innerText = "🌌 Current Topic? ";
+        let topicSet = document.getElementById("topic-text");
+        topicSet.innerHTML = " &nbsp;... nah, not yet.";
+        topicSet.classList.replace("topic-set", "topic-not");
+        // Reset NASA images container
         let imageBox = document.getElementsByClassName("nasa-image");
         Array.from(
             imageBox
