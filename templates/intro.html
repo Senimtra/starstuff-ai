@@ -1,0 +1,280 @@
+{% load static %}
+
+<!-- ### SLIDE 01 ### -->
+<div id="slide_01" class="layout-box slides">
+    <div class="intro-section">
+        <div class="image-box slide_01"><img src="{% static 'images/slide_01.png' %}" alt="Professor Starstuff" /></div>
+        <div class="content-box slide_01">
+            <div id="slide_01-title">Professor <b>Starstuff</b> ✨</div>
+            <div class="slide_01-sub1">~ An AI Chatbot ~</div>
+            <div class="slide_01-sub2">Bringing Astronomy to Life for Kids 🚀</div>
+        </div>
+    </div>
+</div>
+
+<!-- ### SLIDE 02 ### -->
+<div id="slide_02" class="layout-box slides">
+    <h1>📝 Introduction</h1>
+
+    <div class="d-flex mt-2">
+        <div class="content-box slide_02_1">
+            "What if kids could have their very own AI-powered space professor, ready to answer all their
+            astronomy questions, tell fascinating space stories, and even generate mini-podcasts about
+            the
+            cosmos?"
+        </div>
+        <div class="image-box slide_02"><img src="{% static 'images/slide_02.png' %}" alt="Listening children" /></div>
+    </div>
+
+    <div class="content-box slide_02 mt-3 px-4 pt-4">
+        <p><strong>Professor Starstuff</strong>, an AI chatbot<br> that makes astronomy fun and interactive for
+            kids! It combines:</p>
+        <ul>
+            <li>🌟 <strong>Natural Language Processing (NLP)</strong> to understand kids' questions.</li>
+            <li>🌟 A <strong>vector-based knowledge system</strong> for retrieving accurate space facts.</li>
+            <li>🌟 <strong>NASA's API</strong> to provide real space images and enhance learning.</li>
+            <li>🌟 <strong>Podcast-style responses</strong> that turn complex topics into engaging storytelling.</li>
+        </ul>
+        <p>With <strong>Professor Starstuff</strong>, kids don’t just learn about space - they explore it in a whole new
+            way! 🚀🌠</p>
+    </div>
+</div>
+
+<!-- ### SLIDE 03 ### -->
+<div id="slide_03" class="layout-box slides">
+    <h1>📊 Dataset</h1>
+
+    <div class="d-flex mt-2">
+        <div class="content-box slide_03_1 px-4 pt-4">
+            <h4>Where’s the Data From?</h4>
+            <p>The knowledge is built from provided YouTube video transcripts.</p>
+
+            <h4>How is the Data Retrieved?</h4>
+            <p>Using the <code><b>youtube_transcript_api</b></code> library:</p>
+            <ul>
+                <li>📌 Fetch video <strong>IDs & titles</strong></li>
+                <li>📌 Extract <strong>transcripts</strong></li>
+            </ul>
+            <h4>Chunking for Better Searchability:</h4>
+            <ul>
+                <li>📌 Text is split using <strong>RecursiveCharacterTextSplitter</strong></li>
+                <li>📌 <strong>Chunk size:</strong> 500 tokens</li>
+                <li>📌 <strong>Overlap:</strong> 100 tokens (for better context retention)</li>
+            </ul>
+            <h4>Embedding & Storage:</h4>
+            <ul>
+                <li>📌 Chunks are embedded and stored in <strong>ChromaDB</strong></li>
+                <li>📌 Metadata (e.g., video title) for improved retrieval</li>
+            </ul>
+        </div>
+        <div>
+            <div class="image-box slide_03"><img src="{% static 'images/slide_03_1.png' %}" alt="Cat retrieval" /></div>
+            <div class="image-box slide_03 chroma mt-3"><img src="{% static 'images/slide_03_2.png' %}"
+                    alt="ChromaDB" /></div>
+        </div>
+    </div>
+</div>
+
+<!-- ### SLIDE 04 ### -->
+<div id="slide_04" class="layout-box slides">
+    <h1>💻 Technical Summary</h1>
+
+    <div class="d-flex mt-1">
+        <div class="content-box slide_04_1 px-4 pt-4">
+            <h4>Architecture Overview</h4>
+            <p>Professor Starstuff is powered by a <strong>LangGraph agent</strong>, using:</p>
+            <ul>
+                <li>🛠️ <strong>GPT-4</strong> used for decision-making (tool usage).</li>
+                <li>⚡ <strong>GPT-3.5-turbo</strong> for faster response time.</li>
+                <li>🗂️ <strong>ChromaDB</strong> as a vector store for context-aware retrieval.</li>
+                <li>📡 <strong>NASA API</strong> for real-time space images.</li>
+                <li>🔊 <strong>OpenAI TTS</strong> for converting answers into spoken mini-podcasts.</li>
+            </ul>
+        </div>
+        <div class="image-box slide_04"><img src="{% static 'images/slide_04_1.png' %}" alt="Langsmith Trace" /></div>
+    </div>
+
+    <div class="d-flex mt-3">
+        <div class="image-box slide_04_2 me-3"><img src="{% static 'images/slide_04_2.png' %}" alt="LangGraph" /></div>
+        <div class="content-box slide_04_2 px-4 pt-4">
+            <h4>How It Works Together</h4>
+            <ul>
+                <li>⁉️ <strong>User Input:</strong> The agent first determines if the query is about astronomy or
+                    general
+                    conversation.</li>
+                <li>❓ <strong>Decision Phase (GPT-4):</strong></li>
+                <ul>
+                    <li><span>☑️</span> Determines if the query is <strong>astronomical</strong> or <strong>general
+                            conversation.</strong>
+                    </li>
+                    <li><span>☑️</span> If general, it takes a <strong>shortcut</strong> for a quick response.</li>
+                </ul>
+                <li>❓ <strong>Retrieval Phase (GPT-3.5 Turbo):</strong></li>
+                <ul>
+                    <li><span>☑️</span> <strong>ChromaDB</strong> (retrieves relevant space facts).</li>
+                    <li><span>☑️</span> <strong>NASA API</strong> (fetches related images).</li>
+                    <li><span>☑️</span> <strong>OpenAI TTS</strong> (generates a podcast-style response).</li>
+                </ul>
+                <li>‼️ <strong>Final Answer:</strong> The chatbot returns a <strong>text or voice response</strong>
+                    based on the
+                    user’s interaction mode.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="d-flex mt-3">
+        <div class="content-box d-flex slide_04_3 px-4 pt-4">
+            <div>
+                <h2>Deployment & Infrastructure</h2>
+                <ul>
+                    <li class="li-deploy mt-4"><span>🟢</span> <strong>Django (Backend Framework):</strong>
+                        <ul>
+                            <li>Handles chatbot logic, API communication, and serves as the main application.</li>
+                        </ul>
+                    </li>
+                    <li class="li-deploy"><span>🔵</span> <strong>SQLite (ChromaDB, Embedded in Django):</strong>
+                        <ul>
+                            <li>Local vector database <strong>stored within Django</strong>, used for
+                                <strong>retrieval-augmented generation (RAG)</strong> without requiring an external
+                                database
+                                server.
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="li-deploy"><span>🔴</span> <strong>Redis (Cloud Memory Storage):</strong>
+                        <ul>
+                            <li>A <strong>fast, cloud-based key-value store</strong>, used to <strong>maintain
+                                    conversation
+                                    memory</strong> across user interactions, ensuring context persistence.</li>
+                        </ul>
+                    </li>
+                    <li class="li-deploy"><span>🟣</span> <strong>Heroku (Hosting Platform):</strong>
+                        <ul>
+                            <li>Deploys and runs the full <strong>Django + ChromaDB</strong> backend, with <strong>Redis
+                                    connected as a cloud service</strong> for optimized performance.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex flex-column ms-3 mt-4 icon-box">
+                <div class="image-box"><img src="{% static 'images/slide_04_3.png' %}" alt="Django" /></div>
+                <div class="image-box"><img src="{% static 'images/slide_04_4.png' %}" alt="SQLite" /></div>
+                <div class="image-box"><img src="{% static 'images/slide_04_5.png' %}" alt="Redis" /></div>
+                <div class="image-box"><img src="{% static 'images/slide_04_6.png' %}" alt="Heroku" /></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ### SLIDE 05 ### -->
+<div id="slide_05" class="layout-box slides">
+    <h1>🛠️ Tools & Technologies</h1>
+
+    <p>Professor Starstuff leverages multiple tools to enhance user experience.</p>
+
+    <div class="d-flex">
+        <div class="content-box slide_05 px-4 pt-4 me-3">
+            <h3>🧠 Vector Database <img src="{% static 'images/slide_05_4.png' %}" alt="ChromaDB Logo" /></h3>
+            <ul>
+                <li>🧩 <strong>ChromaDB</strong> stores and retrieves preprocessed astronomy facts.</li>
+                <li>🧩 <strong>OpenAI text-embedding-3-large</strong> for quality text vectorization.</li>
+                <li>🧩 <strong>Chunking Strategy:</strong> Size 500, Overlap 100</li>
+                <li>🧩 <strong>Retrieval strategy:</strong> Fetches top 3 most relevant chunks (k=3).</li>
+            </ul>
+        </div>
+        <div class="image-box slide_05"><img src="{% static 'images/slide_05_1.png' %}" alt="Vector database" /></div>
+    </div>
+
+    <div class="d-flex">
+        <div class="content-box slide_05 px-4 pt-4 mt-3 me-3">
+            <h3>🎙 Podcast AI Storytelling <img src="{% static 'images/slide_05_5.png' %}" class="openai"
+                    alt="OpenAI Logo" /></h3>
+            <p class="mt-3 ms-2"><strong>OpenAI TTS</strong> is used to generate two types of audio responses:</p>
+            <ul>
+                <li>🔊 <strong>Teaser Podcast</strong> – A quick summary of the topic (default).</li>
+                <li>🔊 <strong>On-Demand Podcast</strong> – Full episodes for deeper exploration.</li>
+            </ul>
+        </div>
+        <div class="image-box slide_05 mt-3"><img src="{% static 'images/slide_05_3.png' %}" alt="Podcast" />
+        </div>
+    </div>
+
+    <div class="d-flex">
+        <div class="content-box slide_05 px-4 pt-4 mt-3 me-3">
+            <h3>🔭 NASA Images API <img src="{% static 'images/slide_05_6.png' %}" class="nasa" alt="Nasa Logo" /></h3>
+            <ul>
+                <li>🪐 <strong>LLM extracts the main topic</strong> from user queries.</li>
+                <li>🪐 Generates a <strong>relevant search term dynamically.</strong></li>
+                <li>🪐 Queries <strong>NASA's Image API</strong> for relevant space <strong>images</strong>.</li>
+                <li>🪐 Provides <strong>10 images</strong> for users to <strong>shuffle</strong> and explore.</li>
+            </ul>
+        </div>
+        <div class="image-box slide_05 mt-3"><img src="{% static 'images/slide_05_2.png' %}" alt="NASA Images" />
+        </div>
+    </div>
+</div>
+
+<!-- ### SLIDE 06 ### -->
+<div id="slide_06" class="layout-box slides">
+    <h1>📈 Evaluation & Optimization</h1>
+
+    <div class="d-flex">
+        <div class="content-box slide_06 px-4 pt-4 mt-2 me-3">
+            <h3>LangSmith Evaluation <img src="{% static 'images/slide_06_2.png' %}" alt="LangSmith Logo" /></h3>
+            <ul>
+                <li>🦜 <strong>Inference time</strong> (overall speed of responses).</li>
+                <li>🦜 <strong>Vector chunk retrieval efficiency</strong> (ensuring relevant facts are fetched).</li>
+                <li>🦜 <strong>Tool retrieval efficiency</strong> (NASA API, OpenAI TTS, ChromaDB).</li>
+            </ul>
+        </div>
+        <div class="image-box slide_06 mt-3"><img src="{% static 'images/slide_06_1.png' %}"
+                alt="LangSmith Evaluation" />
+        </div>
+    </div>
+    <div class="d-flex">
+        <div class="image-box slide_06_2 mt-3 me-3"><img src="{% static 'images/slide_06_3.png' %}"
+                alt="LLM Selection" />
+        </div>
+        <div class="content-box slide_06 px-4 pt-4 mt-3">
+            <h3>Model Selection Optimization</h3>
+            <ul>
+                <li>✅ <strong>Goal:</strong> Improve response speed without compromising quality.</li>
+                <li>🧪 Experimented with different LLMs to optimize performance.</li>
+                <li>📌 <strong>GPT-4</strong> → 🏆 Best for decision-making (accurate classification).</li>
+                <li>📌 <strong>GPT-3.5 Turbo</strong> → ⚡ Best for response generation (fast, effective).</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- ### SLIDE 07 ### -->
+<div id="slide_07" class="layout-box slides">
+    <h1>✨ Next Steps for Professor Starstuff 🚀</h1>
+
+    <div class="content-box slide_07 px-4 pt-4 mt-2 me-3">
+        <ul>
+            <li><b>🚀 Expand Knowledge Base</b> Integrate more astronomy datasets and sources.</li>
+            <li><b>🛰️ Implement Full Voice Interaction</b> Improve natural conversation flow.</li>
+            <li><b>🔭 Increase Real-Time Data Access</b> Connect to live space events and news.</li>
+            <li><b>🎙️ Implement Streaming</b> Enable faster podcast-style interactions.</li>
+            <li><b>🌌 Make It More Interactive</b> Add quizzes and space learning features.</li>
+            <li><b>🖼️ Discuss Retrieved Images</b> Provide in-depth explanations of space images.</li>
+            <li><b>👤 User Profile Management</b> Personalize experiences with saved preferences.</li>
+        </ul>
+    </div>
+</div>
+
+<!-- ### SLIDE 08 ### -->
+<div id="slide_08" class="layout-box slides">
+    <h1>🥳 School’s Out! 🎉</h1>
+
+    <div class="d-flex">
+        <div class="content-box slide_08 px-4 pt-4 mt-3 me-3">
+            <div>Thank</div>
+            <div>You!</div>
+            <div>💙</div>
+        </div>
+        <div class="image-box slide_08 mt-3"><img src="{% static 'images/slide_08.png' %}" alt="School's Out" />
+        </div>
+    </div>
+</div>

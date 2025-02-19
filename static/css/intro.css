@@ -1,0 +1,250 @@
+.section-box {
+    display: none;
+}
+
+/* Introduction Styles */
+#introduction-container {
+    display: block;
+    width: 100%;
+    margin-left: 12.75em;
+    margin-right: 12.75em;
+}
+
+.slides:not(:first-child) {
+    margin-top: 3em;
+}
+
+html,
+body {
+    overflow: auto; /* Keeps scrolling enabled */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* Internet Explorer & Edge */
+}
+
+/* For WebKit-based browsers (Chrome, Safari) */
+html::-webkit-scrollbar {
+    display: none;
+}
+
+img {
+    border-radius: 0.5em;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0.5em;
+}
+
+.image-box {
+    border-radius: 10px;
+    border: 2px solid rgb(33, 33, 33);
+}
+
+.content-box {
+    width: 100%;
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    background-image: url("../images/intro_background.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border: 2px solid rgb(33, 33, 33);
+}
+
+.intro-section {
+    display: flex;
+}
+
+.intro-section:not(:first-child) {
+    margin-top: 10em;
+}
+
+/* ################### */
+/* # SLIDE 01 STYLES # */
+/* ################### */
+
+.slide_01 img {
+    width: 15em;
+}
+
+.content-box.slide_01 {
+    margin-left: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#slide_01-title {
+    font-size: 2.8em;
+    margin-bottom: 0.3em;
+}
+
+.slide_01-sub1 {
+    font-size: 1.6em;
+    font-style: italic;
+}
+
+.slide_01-sub2 {
+    margin-top: 0.4em;
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+/* ################### */
+/* # SLIDE 02 STYLES # */
+/* ################### */
+
+.slide_02 img {
+    width: 14em;
+}
+
+.slide_02 li {
+    margin-bottom: 0.25em;
+}
+
+.content-box.slide_02_1 {
+    margin-right: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 1.5em;
+    font-size: 110%;
+    font-style: italic;
+}
+
+/* ################### */
+/* # SLIDE 03 STYLES # */
+/* ################### */
+
+.slide_03 {
+    margin-left: 1em;
+}
+
+.slide_03 img {
+    width: 14em;
+}
+
+.slide_03.chroma {
+    border: 3px solid rgb(0, 212, 0);
+    border-radius: 0.3em;
+}
+
+/* ################### */
+/* # SLIDE 04 STYLES # */
+/* ################### */
+
+.slide_04 {
+    margin-left: 1em;
+}
+
+.slide_04 img {
+    width: 14em;
+}
+
+.slide_04_1 li {
+    margin-bottom: 0.25em;
+}
+
+.slide_04_2 img {
+    width: 10em;
+}
+
+.slide_04_2 li {
+    margin-bottom: 0.2em;
+}
+
+.slide_04_2 span {
+    padding-left: 1em;
+}
+
+.slide_04_3 h4 {
+    margin-bottom: 0.6em;
+}
+
+.slide_04_3 .li-deploy {
+    margin-bottom: 0.5em;
+}
+
+.slide_04_3 .li-deploy li {
+    margin-left: 1em;
+}
+
+.slide_04_3 .icon-box {
+    width: 11em;
+}
+
+.slide_04_3 img {
+    width: 100%;
+}
+
+.slide_04_3 .icon-box div {
+    margin-top: 1.9em;
+}
+
+/* ################### */
+/* # SLIDE 05 STYLES # */
+/* ################### */
+
+#slide_05 > p {
+    font-size: 1.2em;
+    font-style: italic;
+}
+
+.slide_05 img {
+    width: 12em;
+}
+
+.slide_05 h3 img {
+    width: 3em;
+    border-radius: 0.15em;
+    border: 2px solid rgb(33, 33, 33);
+    margin-left: 0.2em;
+}
+
+.slide_05 .openai {
+    width: 2.5em;
+}
+
+.slide_05 .nasa {
+    width: 2em;
+}
+
+/* ################### */
+/* # SLIDE 06 STYLES # */
+/* ################### */
+
+.slide_06 > img {
+    width: 20em;
+    padding: 0.5em;
+}
+
+.slide_06 h3 img {
+    width: 2.8em;
+    border: 2px solid rgb(33, 33, 33);
+    border-radius: 0.8em;
+    margin-left: 0.3em;
+}
+
+.slide_06_2 > img {
+    padding: 0;
+    width: 12em;
+}
+
+/* ################### */
+/* # SLIDE 08 STYLES # */
+/* ################### */
+
+.slide_08 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 3.5em;
+    font-weight: bold;
+}
+
+.slide_08 img {
+    border-radius: 0.15em;
+}
