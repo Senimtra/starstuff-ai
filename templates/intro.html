@@ -1,7 +1,14 @@
 {% load static %}
+<!-- Introduction Toggle -->
+<button class="go-back" onclick="introSwitch()">
+    <div class="go-back-button d-flex">
+        <div class="image-box"><img src="{% static 'images/favicon.ico' %}" alt="Professor Starstuff" /></div>
+        <div class="ms-2 d-flex align-items-center">Abort intro! 🚀</div>
+    </div>
+</button>
 
 <!-- ### SLIDE 01 ### -->
-<div id="slide_01" class="layout-box slides">
+<div id="slide_01" class="layout-box">
     <div class="intro-section">
         <div class="image-box slide_01"><img src="{% static 'images/slide_01.png' %}" alt="Professor Starstuff" /></div>
         <div class="content-box slide_01">
@@ -164,6 +171,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <!-- ### SLIDE 05 ### -->

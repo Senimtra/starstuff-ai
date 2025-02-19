@@ -1,10 +1,40 @@
-.section-box {
-    display: none;
+/* Go-back Button Styles */
+.go-back {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    border: none;
+    cursor: pointer;
+    z-index: 1000;
+    margin: 0;
+    padding: 0;
+    background: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.go-back-button {
+    width: 100%;
+    flex: 1;
+    padding: 0.2em;
+    border-radius: 10px;
+    font-size: 1.1em;
+    color: white;
+    background: #161616;
+    border: 2px solid rgb(33, 33, 33);
+}
+
+.go-back img {
+    width: 1.5em;
+}
+
+.go-back:hover {
+    transform: translate(2px, 2px) rotateX(2deg) rotateY(2deg);
+    box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Introduction Styles */
 #introduction-container {
-    display: block;
+    display: none;
     width: 100%;
     margin-left: 12.75em;
     margin-right: 12.75em;

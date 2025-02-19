@@ -1,6 +1,7 @@
 // Shuffle images
 let imageShuffle;
 let shufflePosition;
+let introState = false;
 
 // Function to get CSRF token from the cookie
 const getCookie = (name) => {
@@ -156,7 +157,7 @@ const setResetButton = () => {
         ✨<br> Ask me anything about space, and let’s explore the universe together! 🚀</div>`;
         // Reset topic container
         let topicHeader = document.getElementById("topic-header");
-        topicHeader.innerText = "🌌 Current Topic? ";
+        topicHeader.innerText = "🌌 Current Topic";
         let topicSet = document.getElementById("topic-text");
         topicSet.innerHTML = "... waiting";
         topicSet.classList.replace("topic-set", "topic-not");
@@ -238,5 +239,26 @@ const shuffleImages = () => {
         shufflePosition = [...Array(imageShuffle.length - 1).keys()].map(
             (n) => n + 1
         );
+    }
+};
+
+// Project Introduction Toggle
+const introSwitch = () => {
+    let introContainer = document.getElementById("introduction-container");
+    let sectionBoxes = document.getElementsByClassName("section-box");
+    if (!introState) {
+        // switch ON
+        introContainer.style.display = "block";
+        Array.from(sectionBoxes).forEach((el) => {
+            el.style.display = "none";
+        });
+        introState = true;
+    } else {
+        // switch OFF
+        introContainer.style.display = "none";
+        Array.from(sectionBoxes).forEach((el) => {
+            el.style.display = "block";
+        });
+        introState = false;
     }
 };
