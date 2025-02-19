@@ -96,6 +96,56 @@ body {
     }
 }
 
+.button-box {
+    height: 3.5em;
+    padding: 10px;
+    border-radius: 10px;
+    background: #353535;
+    border: 2px solid rgb(33, 33, 33);
+}
+
+.button-box a {
+    text-decoration: none;
+}
+
+.button-box button {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#langSmith {
+    width: 10em;
+    background-color: rgb(28, 60, 58);
+    border: 2px solid rgb(40, 85, 82);
+    padding-right: 1em;
+}
+
+#langSmith:hover {
+    border: 2px solid rgb(29, 64, 62);
+    background-color: rgb(18, 39, 38);
+}
+
+#langSmith img {
+    width: 3em;
+    margin-right: 0.3em;
+}
+
+#intro-button {
+    border: 2px solid rgb(27, 27, 27);
+}
+
+#intro-button img {
+    width: 1.5em;
+    margin-right: 0.8em;
+    border-radius: 0.1em;
+}
+
+#intro-button:hover {
+    background-color: rgb(24, 24, 24);
+}
+
 /* Topic Frame Styles */
 .topic-not {
     font-size: 1.15em;
@@ -298,8 +348,34 @@ body {
 
 .podcast-box {
     height: 4.5em;
-    padding: 10px;
+    padding: 0.9em;
     border-radius: 10px;
     background: #353535;
     border: 2px solid rgb(33, 33, 33);
+}
+
+.podcast-btn {
+    height: 100%;
+    width: 100%;
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#podcast-teaser-btn {
+    /* display: none; */
+    color: rgb(244, 191, 0);
+    border: 2px solid rgb(255, 208, 0);
+    background-color: rgba(141, 115, 0, 0.511);
+    /* animation: shuffleGlow 0.75s infinite alternate ease-in-out; */
+}
+
+#podcast-full-btn {
+    /* display: none; */
+    color: rgb(244, 191, 0);
+    border: 2px solid rgb(255, 208, 0);
+    background-color: rgba(141, 115, 0, 0.511);
+    /* animation: shuffleGlow 0.75s infinite alternate ease-in-out; */
 }

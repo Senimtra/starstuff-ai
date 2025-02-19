@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 
-from .utils import chatbotInit, getMessage, redis_client
+from .utils import chatbotInit, getMessage, redis_client, podcastOutput
 
 
 # Global variables to store chatbot state
@@ -22,7 +22,6 @@ def index(request):
     # Render the 'index.html' template
     return render(request, 'index.html')
 
-
 # Get Chatbot response
 def response(request):
     global graph
@@ -38,6 +37,11 @@ def response(request):
         context = {'response': response}
     return JsonResponse(context)
 
+# Get Podcast Teaser
+def podcast(request):
+    if request.method == 'POST':
+        podcastOutput()
+    return HttpResponse(status = 204)
 
 # Reset Chatbot memory
 def reset(request):

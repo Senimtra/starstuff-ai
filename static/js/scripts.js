@@ -90,6 +90,9 @@ const getResponse = (query) => {
                 setTopic(topic);
                 // Set image shuffle
                 setShuffle(topic);
+                // Activate podcast teaser button
+                console.log(result.response[2]["teaser"]);
+                activatePodcastTeaserBtn();
             } else {
                 console.log("no topic set");
             }
@@ -240,6 +243,27 @@ const shuffleImages = () => {
             (n) => n + 1
         );
     }
+};
+
+// Activate Podcast Teaser Button
+const activatePodcastTeaserBtn = () => {
+    let teaserBtn = document.getElementById("podcast-teaser-btn");
+    console.log(teaserBtn);
+    teaserBtn.classList.remove("disabled");
+    console.log("activate podcast btn");
+};
+
+// Podcast Teaser
+const podcastTeaser = () => {
+    //Send the POST request
+    fetch("/podcast/", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": csrftoken,
+        },
+    }).then(() => {
+        console.log("podcast triggered");
+    });
 };
 
 // Project Introduction Toggle

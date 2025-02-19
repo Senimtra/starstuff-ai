@@ -47,12 +47,16 @@
                                 id="test-message-text"></span></div>
                     </div>
                     <div>
-                        <a href="https://smith.langchain.com/public/e64aed79-7c5f-44ad-8864-95f8cd070cd0/r"
-                            target="_blank">
-                            <button type="button" id="langSmith" class="btn btn-sm btn-dark mt-3">Langsmith</button>
-                        </a>
-                        <button type="button" id="intro-button" class="btn btn-sm btn-dark mt-3"
-                            onclick="introSwitch()">Walkthrough</button>
+                        <div class="button-box d-flex justify-content-center align-items-center">
+                            <a href="https://smith.langchain.com/public/e64aed79-7c5f-44ad-8864-95f8cd070cd0/r"
+                                target="_blank">
+                                <button type="button" id="langSmith" class="btn btn-sm btn-dark"><img
+                                        src="{% static 'images/slide_06_2.png' %}" />LangSmith</button>
+                            </a>
+                            <button type="button" id="intro-button" class="btn btn-sm btn-dark ms-2"
+                                onclick="introSwitch()"><img src="{% static 'images/favicon.ico' %}" /> Mission
+                                Briefing</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,7 +103,12 @@
                 <!-- Podcast -->
                 <div class="podcast-frame layout-box">
                     <h5>🎙️ Podcast</h5>
-                    <div class="podcast-box">
+                    <div class="podcast-box d-flex justify-content-center align-items-center">
+                        <div id="podcast-teaser-btn" class="btn btn-warning podcast-btn disabled"
+                            onclick="podcastTeaser()">▶️&nbsp;<em>Teaser</em>
+                        </div>
+                        <div id="podcast-full-btn" class="btn btn-warning podcast-btn disabled ms-3" onclick="">
+                            ▶️&nbsp;<em>Episode</em></div>
                     </div>
                 </div>
             </div>

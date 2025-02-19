@@ -32,8 +32,8 @@ redis_client = redis.from_url(
 # Last image search container
 last_image_search = None
 
-# Podcast setup
-podcast_setup = {
+# Discussion topic
+discussion_topic = {
     'topic': None,
     'teaser': None,
     'llm': 'gpt-4o-mini',
@@ -90,7 +90,7 @@ def chatbotInit():
     @tool(response_format = 'content')
     def vector_db(query: str):
         """Retrieve astronomical information chunks from chromaDB"""
-        retrieved_docs = vector_store.similarity_search(query, k = 1)
+        retrieved_docs = vector_store.similarity_search(query, k = 2)
         serialized = '\n\n'.join(
             (f"Source: {doc.metadata}\nContent: {doc.page_content}")
             for doc in retrieved_docs
@@ -109,7 +109,7 @@ def chatbotInit():
             data = response.json()
             items = data.get('collection').get('items')
             # Get the first image objects
-            images = [item.get('links') for item in items[:1]]
+            images = [item.get('links') for item in items[:10]]
             # Get the image links
             image_links = [image[0]['href'] for image in images]
             # Update last search string
@@ -121,21 +121,21 @@ def chatbotInit():
     def podcast(search_word:str, query: str):
         """Initialize podcast"""
         # Update podcast (new topic)
-        if search_word != podcast_setup['topic']:
-            podcast_setup['topic'] = search_word
-            podcast_setup['queries'] = [query]
+        if search_word != discussion_topic['topic']:
+            discussion_topic['topic'] = search_word
+            discussion_topic['queries'] = [query]
         # Update podcast (add message)
         else:
-            podcast_setup['queries'].append(query)
+            discussion_topic['queries'].append(query)
         podcast_teaser_prompt = f"""
             You are Professor Starstuff, an engaging astronomy educator for kids!
             Generate a short podcast-style **teaser script** (1 sentence) based 
-            on the topic: '{podcast_setup['topic']}'.
+            on the topic: '{discussion_topic['topic']}'.
             Make it fun, exciting, and full of wonder! 
             End with a hook to keep kids curious for the full episode.
             """
-        podcast_setup['teaser'] = llm_podcast.invoke(podcast_teaser_prompt).content
-        return podcast_setup   
+        discussion_topic['teaser'] = llm_podcast.invoke(podcast_teaser_prompt).content
+        return discussion_topic   
 
     # NODE 1: LLM decides to retrieve documents or respond immediately
     def query_or_respond(state: MessagesState):
@@ -214,6 +214,8 @@ def getMessage(graph, session_key, query):
     """Processes user query"""
     # Load chatbot history from Redis
     conversation_history = json.loads(redis_client.get(session_key) or "[]")
+    global images_amount
+
     # Set tool data containers
     image_links = None
     podcast_teaser = None
@@ -242,3 +244,9 @@ def getMessage(graph, session_key, query):
     response = (message, image_links, podcast_teaser)
 
     return response
+
+# Get Podcast Teaser
+def podcastOutput():
+    teaserText = discussion_topic['teaser']
+    print(teaserText)
+    return teaserText
