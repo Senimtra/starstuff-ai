@@ -4,6 +4,11 @@ import json
 import requests
 import redis
 
+import numpy as np
+import sounddevice as sd
+
+from openai import OpenAI
+
 from dotenv import load_dotenv
 
 from langchain_chroma import Chroma
@@ -14,11 +19,13 @@ from langchain_core.messages import SystemMessage
 from langgraph.graph import MessagesState, StateGraph, END
 from langgraph.prebuilt import ToolNode, tools_condition
 
+from django.http import HttpResponse, JsonResponse
+
 
 load_dotenv('../.env')
 
-# os.environ['LANGSMITH_TRACING'] = 'true'
-# os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
+os.environ['LANGSMITH_TRACING'] = 'true'
+os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 os.environ['REDIS_URL'] = os.getenv('REDIS_URL')
 
@@ -36,6 +43,7 @@ last_image_search = None
 discussion_topic = {
     'topic': None,
     'teaser': None,
+    'episode': None,
     'llm': 'gpt-4o-mini',
     'queries': []
 }
@@ -127,13 +135,24 @@ def chatbotInit():
         # Update podcast (add message)
         else:
             discussion_topic['queries'].append(query)
-        podcast_teaser_prompt = f"""
-            You are Professor Starstuff, an engaging astronomy educator for kids!
-            Generate a short podcast-style **teaser script** (1 sentence) based 
-            on the topic: '{discussion_topic['topic']}'.
-            Make it fun, exciting, and full of wonder! 
-            End with a hook to keep kids curious for the full episode.
-            """
+
+        # 2-3 sentences
+        podcast_teaser_prompt = f"""  
+        You are an AMAZING astronomy teacher that kids absolutely adore! Your voice is full of wonder, excitement, and playfulness. Your job is to create a super fun, short teaser (1-2 sentences) for a FULL podcast episode about {discussion_topic['topic']}—designed for curious young minds who LOVE space!  
+
+        💡 Make sure to:  
+        - Use **simple, playful language** that kids easily understand.  
+        - Add **imagination and storytelling** (e.g., “Imagine you're … 🚀”).  
+        - Use single **fun sound effects & expressions** (“Whoa! Zoom! BOOM!✨”).  
+        - Include **questions** to spark curiosity (“What if … ?! 😲”).  
+        - Always end with a **fun invitation** for the full episode. 🛸  
+
+        ✨ Example format:  
+        🎤 "Whoa!! 🌠 What if I told you there's a planet that RAINS DIAMONDS?! 💎💎💎 Sounds like a pirate’s dream, right? But it’s REAL!! And guess what... we’re about to take a rocket ride to explore it! 🚀 Buckle up, space explorers!!"  
+
+        Now, create a **fun and engaging teaser** for {discussion_topic['topic']}.  
+        """
+
         discussion_topic['teaser'] = llm_podcast.invoke(podcast_teaser_prompt).content
         return discussion_topic   
 
@@ -245,8 +264,36 @@ def getMessage(graph, session_key, query):
 
     return response
 
-# Get Podcast Teaser
-def podcastOutput():
-    teaserText = discussion_topic['teaser']
-    print(teaserText)
-    return teaserText
+
+# Create podcast audio file
+def podcastOutput(request):
+    # Parse JSON request body
+    podcast = json.loads(request.body)
+    podcast_type = podcast['type']
+    # Set up podcast text
+    if podcast_type == 'Teaser':
+        podcastText = discussion_topic['teaser']
+    else:
+        podcastText = podcastFull()
+    # Initialize OpenAI Client
+    podcastClient = OpenAI()
+    # Generate speech response
+    response = podcastClient.audio.speech.create(
+        model = 'tts-1',
+        voice = 'ash',
+        input = podcastText,
+        response_format = 'mp3'
+    )
+    mp3_audio = response.content
+    # Set up response
+    response = HttpResponse(mp3_audio, content_type="audio/mpeg")
+    response['Content-Disposition'] = 'inline; filename="podcast.mp3"'
+    response['Content-Length'] = str(len(mp3_audio))
+    response['Accept-Ranges'] = 'bytes'
+
+    return response
+
+
+# Create full podcast episode
+def podcastFull():
+    return 'This is going to be the full episode!'

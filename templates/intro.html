@@ -39,7 +39,7 @@
         <ul>
             <li>🌟 <strong>Natural Language Processing (NLP)</strong> to understand kids' questions.</li>
             <li>🌟 A <strong>vector-based knowledge system</strong> for retrieving accurate space facts.</li>
-            <li>🌟 <strong>NASA's API</strong> to provide real space images and enhance learning.</li>
+            <li>🌟 <strong>NASA's Image API</strong> to provide real space images and enhance learning.</li>
             <li>🌟 <strong>Podcast-style responses</strong> that turn complex topics into engaging storytelling.</li>
         </ul>
         <p>With <strong>Professor Starstuff</strong>, kids don’t just learn about space - they explore it in a whole new
@@ -60,7 +60,7 @@
             <p>Using the <code><b>youtube_transcript_api</b></code> library:</p>
             <ul>
                 <li>📌 Fetch video <strong>IDs & titles</strong></li>
-                <li>📌 Extract <strong>transcripts</strong></li>
+                <li>📌 Extract <strong>transcripts</strong> from ~8 hours of content</li>
             </ul>
             <h4>Chunking for Better Searchability:</h4>
             <ul>
@@ -94,8 +94,8 @@
                 <li>🛠️ <strong>GPT-4</strong> used for decision-making (tool usage).</li>
                 <li>⚡ <strong>GPT-3.5-turbo</strong> for faster response time.</li>
                 <li>🗂️ <strong>ChromaDB</strong> as a vector store for context-aware retrieval.</li>
-                <li>📡 <strong>NASA API</strong> for real-time space images.</li>
-                <li>🔊 <strong>OpenAI TTS</strong> for converting answers into spoken mini-podcasts.</li>
+                <li>📡 <strong>NASA Image API</strong> for real-time space images.</li>
+                <li>🔊 <strong>OpenAI TTS</strong> for converting answers into spoken podcasts.</li>
             </ul>
         </div>
         <div class="image-box slide_04"><img src="{% static 'images/slide_04_1.png' %}" alt="Langsmith Trace" /></div>
@@ -119,12 +119,11 @@
                 <li>❓ <strong>Retrieval Phase (GPT-3.5 Turbo):</strong></li>
                 <ul>
                     <li><span>☑️</span> <strong>ChromaDB</strong> (retrieves relevant space facts).</li>
-                    <li><span>☑️</span> <strong>NASA API</strong> (fetches related images).</li>
+                    <li><span>☑️</span> <strong>NASA Image API</strong> (fetches related images).</li>
                     <li><span>☑️</span> <strong>OpenAI TTS</strong> (generates a podcast-style response).</li>
                 </ul>
-                <li>‼️ <strong>Final Answer:</strong> The chatbot returns a <strong>text or voice response</strong>
-                    based on the
-                    user’s interaction mode.</li>
+                <li>‼️ <strong>Final Answer:</strong> The chatbot returns a <strong>text response, related images,
+                        and a topic teaser podcast</strong> based on the user’s query.</li>
             </ul>
         </div>
     </div>
@@ -155,7 +154,7 @@
                                     memory</strong> across user interactions, ensuring context persistence.</li>
                         </ul>
                     </li>
-                    <li class="li-deploy"><span>🟣</span> <strong>Heroku (Hosting Platform):</strong>
+                    <li class="li-deploy"><span>🟣</span> <strong>Heroku (PaaS Hosting Platform):</strong>
                         <ul>
                             <li>Deploys and runs the full <strong>Django + ChromaDB</strong> backend, with <strong>Redis
                                     connected as a cloud service</strong> for optimized performance.</li>
@@ -186,8 +185,8 @@
             <ul>
                 <li>🧩 <strong>ChromaDB</strong> stores and retrieves preprocessed astronomy facts.</li>
                 <li>🧩 <strong>OpenAI text-embedding-3-large</strong> for quality text vectorization.</li>
-                <li>🧩 <strong>Chunking Strategy:</strong> Size 500, Overlap 100</li>
-                <li>🧩 <strong>Retrieval strategy:</strong> Fetches top 3 most relevant chunks (k=3).</li>
+                <li>🧩 <strong>Chunking Strategy:</strong> 500-token size, 100-token overlap</li>
+                <li>🧩 <strong>Retrieval Strategy:</strong> Fetches top 3 most relevant chunks (k=3).</li>
             </ul>
         </div>
         <div class="image-box slide_05"><img src="{% static 'images/slide_05_1.png' %}" alt="Vector database" /></div>
@@ -232,10 +231,10 @@
             <ul>
                 <li>🦜 <strong>Inference time</strong> (overall speed of responses).</li>
                 <li>🦜 <strong>Vector chunk retrieval efficiency</strong> (ensuring relevant facts are fetched).</li>
-                <li>🦜 <strong>Tool retrieval efficiency</strong> (NASA API, OpenAI TTS, ChromaDB).</li>
+                <li>🦜 <strong>Tool retrieval efficiency</strong> (NASA Image API, Teaser Podcast, ChromaDB).</li>
             </ul>
         </div>
-        <div class="image-box slide_06 mt-3"><img src="{% static 'images/slide_06_1.png' %}"
+        <div class="image-box slide_06 mt-2"><img src="{% static 'images/slide_06_1.png' %}"
                 alt="LangSmith Evaluation" />
         </div>
     </div>
@@ -261,13 +260,13 @@
 
     <div class="content-box slide_07 px-4 pt-4 mt-2 me-3">
         <ul>
-            <li><b>🚀 Expand Knowledge Base</b> Integrate more astronomy datasets and sources.</li>
-            <li><b>🛰️ Implement Full Voice Interaction</b> Improve natural conversation flow.</li>
-            <li><b>🔭 Increase Real-Time Data Access</b> Connect to live space events and news.</li>
-            <li><b>🎙️ Implement Streaming</b> Enable faster podcast-style interactions.</li>
-            <li><b>🌌 Make It More Interactive</b> Add quizzes and space learning features.</li>
-            <li><b>🖼️ Discuss Retrieved Images</b> Provide in-depth explanations of space images.</li>
-            <li><b>👤 User Profile Management</b> Personalize experiences with saved preferences.</li>
+            <li>🚀 <strong>Expand Knowledge Base:</strong> Integrate more astronomy datasets and sources.</li>
+            <li>🛰️ <strong>Implement Full Voice Interaction:</strong> Improve natural conversation flow.</li>
+            <li>🔭 <strong>Increase Real-Time Data Access:</strong> Connect to live space events and news.</li>
+            <li>🎙️ <strong>Implement Streaming:</strong> Enable faster podcast-style interactions.</li>
+            <li>🌌 <strong>Make It More Interactive:</strong> Add quizzes and space learning features.</li>
+            <li>🖼️ <strong>Discuss Retrieved Images:</strong> Provide in-depth explanations of space images.</li>
+            <li>👤 <strong>User Profile Management:</strong> Personalize experiences with saved preferences.</li>
         </ul>
     </div>
 </div>

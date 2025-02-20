@@ -37,10 +37,10 @@ def response(request):
         context = {'response': response}
     return JsonResponse(context)
 
-# Get Podcast Teaser
+# Get Podcast
 def podcast(request):
     if request.method == 'POST':
-        podcastOutput()
+        return podcastOutput(request)
     return HttpResponse(status = 204)
 
 # Reset Chatbot memory

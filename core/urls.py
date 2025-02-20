@@ -7,7 +7,7 @@ urlpatterns = [
     path('', views.index, name = 'index'),
     # Get Chatbot response
     path('response/', views.response, name = 'response'),
-    # Trigger podcast teaser
+    # Get podcast teaser/full
     path('podcast/', views.podcast, name = 'podcast'),
     # Chatbot memory reset
     path('reset/', views.reset, name = 'reset')

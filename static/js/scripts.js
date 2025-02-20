@@ -171,6 +171,11 @@ const setResetButton = () => {
         Array.from(
             imageBox
         )[0].innerHTML = `<img src="/static/images/shutter.png" alt="Camera shutter" />`;
+        // Reset Podcast container
+        let podcastTeaser = document.getElementById("podcast-teaser-btn");
+        let podcastEpisode = document.getElementById("podcast-full-btn");
+        podcastTeaser.classList.replace("podcast-teaser-animate", "disabled");
+        podcastEpisode.classList.replace("podcast-full-animate", "disabled");
         //Send the POST request
         fetch("/reset/", {
             method: "POST",
@@ -245,25 +250,36 @@ const shuffleImages = () => {
     }
 };
 
-// Activate Podcast Teaser Button
+// Activate Podcast Buttons
 const activatePodcastTeaserBtn = () => {
     let teaserBtn = document.getElementById("podcast-teaser-btn");
-    console.log(teaserBtn);
-    teaserBtn.classList.remove("disabled");
-    console.log("activate podcast btn");
+    let episodeBtn = document.getElementById("podcast-full-btn");
+    teaserBtn.classList.replace("disabled", "podcast-teaser-animate");
+    episodeBtn.classList.replace("disabled", "podcast-full-animate");
+    console.log("podcast buttons activated");
 };
 
-// Podcast Teaser
-const podcastTeaser = () => {
+// Podcast Request & Audio Playback
+const podcast = async (button) => {
+    console.log(button.innerText.slice(4));
+    let podcastType = button.innerText.slice(4);
     //Send the POST request
-    fetch("/podcast/", {
+    let response = await fetch("/podcast/", {
         method: "POST",
         headers: {
+            "Content-Type": "application/json",
             "X-CSRFToken": csrftoken,
         },
-    }).then(() => {
-        console.log("podcast triggered");
+        body: JSON.stringify({ type: podcastType }),
     });
+    // Convert response to a blob (mp3 file)
+    let audioBlob = await response.blob();
+    // Create temporary URL for mp3 file
+    let audioUrl = URL.createObjectURL(audioBlob);
+    // Create audio element and play
+    let audio = new Audio(audioUrl);
+    audio.play();
+    console.log("Podcast is playing...");
 };
 
 // Project Introduction Toggle
