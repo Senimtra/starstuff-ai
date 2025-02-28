@@ -1,4 +1,5 @@
 import os
+import django_on_heroku
 
 from pathlib import Path
 from dotenv import load_dotenv
@@ -111,3 +112,7 @@ STATICFILES_DIRS = [
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+# Configure Django App for Heroku.
+django_on_heroku.settings(locals())
