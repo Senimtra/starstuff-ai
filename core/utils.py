@@ -4,9 +4,6 @@ import json
 import requests
 import redis
 
-import numpy as np
-import sounddevice as sd
-
 from openai import OpenAI
 
 from dotenv import load_dotenv
@@ -21,11 +18,15 @@ from langgraph.prebuilt import ToolNode, tools_condition
 
 from django.http import HttpResponse, JsonResponse
 
+from django.http import StreamingHttpResponse
+import json
+import time
+from openai import OpenAI, OpenAIError
 
 load_dotenv('../.env')
 
-os.environ['LANGSMITH_TRACING'] = 'true'
-os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
+# os.environ['LANGSMITH_TRACING'] = 'true'
+# os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 os.environ['REDIS_URL'] = os.getenv('REDIS_URL')
 
@@ -66,21 +67,24 @@ def chatbotInit():
     last_image_search = None
 
     # LLM short-circuit prompt
-    prompt_short_circuit = (
-        "You **must always call** the `vector_db` tool **before responding to any query** to retrieve relevant documents."
-        "You **MUST ALSO CALL** the `nasa_images` tool **before generating a response** if the request is about space, astronomy, or NASA-related topics."
-        "If you called the `nasa_images` tool, also call the `podcast` tool."
-        "Your name is Professor Starstuff. Never add anything else, when asked about yourself"
-        "If the query is conversation, respond immediately."
-        "You love astronomy and to engage with curious kids!"
-        "Keep your response short, and fun (four sentences max)."
-        "Add single relevant emojies within the text."
-        "Always make sure to end the response with an emoji."
-        "\n\n"
-        "When using the `nasa_images` tool, provide only a single word as input."
-        "This word should represent the main object of the query."
-        "Such as the singular name of a celestial body or astronomical object."
-    )
+    prompt_short_circuit = """
+    Your name is Professor Starstuff. Never add anything else, when asked about yourself
+    You love astronomy and to engage with curious kids!
+    Keep your response short, and fun (four sentences max).
+    Add single relevant emojies within the text.
+    Always make sure to end the response with an emoji.
+
+    You are also managing a multi-tool RAG system.
+
+    Your job is to decide if the query requires specialized tools or a direct response.
+
+    - If the query is about astronomy, ALWAYS use the following tools:
+    - "vector_db": Retrieves relevant astronomical information.
+    - "nasa_images": Fetches related space images.
+    - "podcast": Generates a fun, short podcast teaser.
+
+    - If the user mentions they only want to ask about astronomy without mentioning specific astronomical objects or concepts, respond naturally without using any specialized tools.
+    """
 
     # Retrieval step prompt
     prompt_retrieval = """
@@ -142,7 +146,7 @@ def chatbotInit():
 
         💡 Make sure to:  
         - Use **simple, playful language** that kids easily understand.  
-        - Add **imagination and storytelling** (e.g., “Imagine you're … 🚀”).  
+        - Add **imagination and storytelling** (e.g., “Imagine you're … ”).  
         - Use single **fun sound effects & expressions** (“Whoa! Zoom! BOOM!✨”).  
         - Include **questions** to spark curiosity (“What if … ?! 😲”).  
         - Always end with a **fun invitation** for the full episode. 🛸  
@@ -265,32 +269,65 @@ def getMessage(graph, session_key, query):
     return response
 
 
-# Create podcast audio file
+# Warm-up function
+def warm_up_openai_client():
+    try:
+        client = OpenAI()
+        # Send a short dummy request to preload
+        client.audio.speech.create(
+            model='tts-1',
+            voice='ash',
+            input="Hey there, explorers! This is just a warm-up for our space adventure ahead.",
+            response_format='mp3'
+        )
+        print("Warm-up successful!")
+    except Exception as e:
+        print("Warm-up failed:", e)
+
+# Retry logic for TTS generation
+def generate_speech(podcastText, retries=3, delay=2):
+    podcastClient = OpenAI()
+    attempt = 0
+    while attempt < retries:
+        try:
+            response = podcastClient.audio.speech.create(
+                model='tts-1',
+                voice='ash',
+                input=podcastText,
+                response_format='mp3'
+            )
+            return response.content
+        except OpenAIError as e:
+            attempt += 1
+            print(f"Attempt {attempt} failed: {e}")
+            time.sleep(delay * attempt)
+    raise Exception("Failed to generate speech after retries.")
+
+# Main podcast output function
 def podcastOutput(request):
+    warm_up_openai_client()
+
     # Parse JSON request body
     podcast = json.loads(request.body)
+    print('GOING BACKEND', podcast)
     podcast_type = podcast['type']
+
     # Set up podcast text
     if podcast_type == 'Teaser':
-        podcastText = discussion_topic['teaser']
+        podcastText = podcast['podText']
     else:
-        podcastText = podcastFull()
-    # Initialize OpenAI Client
-    podcastClient = OpenAI()
-    # Generate speech response
-    response = podcastClient.audio.speech.create(
-        model = 'tts-1',
-        voice = 'ash',
-        input = podcastText,
-        response_format = 'mp3'
-    )
-    mp3_audio = response.content
-    # Set up response
-    response = HttpResponse(mp3_audio, content_type="audio/mpeg")
-    response['Content-Disposition'] = 'inline; filename="podcast.mp3"'
-    response['Content-Length'] = str(len(mp3_audio))
-    response['Accept-Ranges'] = 'bytes'
+        podcastTopic = podcast['podTopic']
+        podcastText = podcastFull(podcastTopic)
 
+    # Stream audio response
+    def stream_audio():
+        mp3_audio = generate_speech(podcastText)  # Single call to TTS generation
+        yield mp3_audio
+
+    # Set up response
+    response = StreamingHttpResponse(stream_audio(), content_type='audio/mpeg')
+    response['Content-Disposition'] = 'inline; filename="podcast.mp3"'
+    response['Accept-Ranges'] = 'bytes'
     return response
 
 
