@@ -2,6 +2,8 @@
 let imageShuffle;
 let shufflePosition;
 let introState = false;
+let podCastText;
+let podCastTopic;
 
 // Function to get CSRF token from the cookie
 const getCookie = (name) => {
@@ -45,13 +47,17 @@ const sendMessage = () => {
         // Append user message
         let newMessage = document.createElement("div");
         newMessage.classList.add("message-box");
-        newMessage.textContent = input.slice(1, -1);
+        if (input.startsWith('"') && input.endsWith('"')) {
+            newMessage.textContent = input.slice(1, -1);
+        } else {
+            newMessage.textContent = input;
+        }
         document.getElementById("chat-content").appendChild(newMessage);
         document.getElementById("user-input").value = "";
         document.getElementById("user-input").focus();
         input = input.trim().replace(/^"|"$/g, "");
         input = `"${input}"`;
-        console.log(input); // Output: `"Hello, world!"`
+        console.log(input);
         getResponse(input);
     }
 };
@@ -91,7 +97,9 @@ const getResponse = (query) => {
                 // Set image shuffle
                 setShuffle(topic);
                 // Activate podcast teaser button
-                console.log(result.response[2]["teaser"]);
+                console.log("THIS_A", result.response[2]["teaser"]);
+                podCastText = result.response[2]["teaser"];
+                podCastTopic = result.response[2]["topic"];
                 activatePodcastTeaserBtn();
             } else {
                 console.log("no topic set");
@@ -263,14 +271,44 @@ const activatePodcastTeaserBtn = () => {
 const podcast = async (button) => {
     console.log(button.innerText.slice(4));
     let podcastType = button.innerText.slice(4);
-    //Send the POST request
+    console.log("THIS_B", podCastText);
+    console.log("THIS TOPIC FRONTEND", podCastTopic);
+    // Set Spinner
+    if (podcastType == "Teaser") {
+        let teaserBtn = document.getElementById("podcast-teaser-btn");
+        let spinnerTeaser = document.createElement("span");
+        spinnerTeaser.classList.add(
+            "spinner-border",
+            "spinner-border-sm",
+            "spinner-teaser"
+        );
+        spinnerTeaser.setAttribute("role", "status");
+        spinnerTeaser.style.marginLeft = "10px";
+        teaserBtn.appendChild(spinnerTeaser);
+    } else {
+        let episodeBtn = document.getElementById("podcast-full-btn");
+        let spinnerEpisode = document.createElement("span");
+        spinnerEpisode.classList.add(
+            "spinner-border",
+            "spinner-border-sm",
+            "spinner-episode"
+        );
+        spinnerEpisode.setAttribute("role", "status");
+        spinnerEpisode.style.marginLeft = "10px";
+        episodeBtn.appendChild(spinnerEpisode);
+    }
+    // Send the POST request
     let response = await fetch("/podcast/", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "X-CSRFToken": csrftoken,
         },
-        body: JSON.stringify({ type: podcastType }),
+        body: JSON.stringify({
+            type: podcastType,
+            podText: podCastText,
+            podTopic: podCastTopic,
+        }),
     });
     // Convert response to a blob (mp3 file)
     let audioBlob = await response.blob();
@@ -279,6 +317,15 @@ const podcast = async (button) => {
     // Create audio element and play
     let audio = new Audio(audioUrl);
     audio.play();
+    if (podcastType == "Teaser") {
+        let spinnerTeaserElement =
+            document.getElementsByClassName("spinner-teaser")[0];
+        spinnerTeaserElement.remove();
+    } else {
+        let spinnerEpisodeElement =
+            document.getElementsByClassName("spinner-episode")[0];
+        spinnerEpisodeElement.remove();
+    }
     console.log("Podcast is playing...");
 };
 
