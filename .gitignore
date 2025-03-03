@@ -1,5 +1,2 @@
 __pycache__/
-chroma_db/
-_scope.txt
 .env
-db.sqlite3
