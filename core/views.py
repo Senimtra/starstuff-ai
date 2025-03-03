@@ -1,12 +1,15 @@
 
 import json
 
+from django.conf import settings
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
 
 from .utils import chatbotInit, getMessage, redis_client, podcastOutput
 
+# LangSmith example trace url
+trace_url = settings.LANGSMITH_TRACE_URL
 
 # Global variables to store chatbot state
 graph = None
@@ -20,7 +23,7 @@ def index(request):
     graph, session_key = chatbotInit()
     request.session['chatbot_session_key'] = session_key
     # Render the 'index.html' template
-    return render(request, 'index.html')
+    return render(request, 'index.html', {'langsmith_url': trace_url})
 
 # Get Chatbot response
 def response(request):
@@ -29,8 +32,8 @@ def response(request):
         query = json.loads(request.body)['query']
         # Retrieve session key from request
         session_key = request.session.get('chatbot_session_key', None)
-        # Initialize chatbot if session key is missing
-        if not session_key:
+        # Initialize chatbot if session key is missing or graph is None
+        if not session_key or graph is None:
             graph, session_key = chatbotInit()
             request.session['chatbot_session_key'] = session_key
         response = getMessage(graph, session_key, query)

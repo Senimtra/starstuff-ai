@@ -13,6 +13,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
+# LANGSMITH_TRACE
+LANGSMITH_TRACE_URL = os.environ.get('LANGSMITH_TRACE')
 
 # SECURITY
 DEBUG = True
