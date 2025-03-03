@@ -25,8 +25,8 @@ from openai import OpenAI, OpenAIError
 
 load_dotenv('../.env')
 
-# os.environ['LANGSMITH_TRACING'] = 'true'
-# os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
+os.environ['LANGSMITH_TRACING'] = 'true'
+os.environ['LANGSMITH_API_KEY'] = os.getenv('LANGSMITH')
 os.environ['OPENAI_API_KEY'] = os.getenv('OPENAI_API_KEY')
 os.environ['REDIS_URL'] = os.getenv('REDIS_URL')
 
@@ -239,7 +239,6 @@ def getMessage(graph, session_key, query):
     """Processes user query"""
     # Load chatbot history from Redis
     conversation_history = json.loads(redis_client.get(session_key) or "[]")
-    global images_amount
 
     # Set tool data containers
     image_links = None
@@ -271,39 +270,69 @@ def getMessage(graph, session_key, query):
     return response
 
 
+# Create full podcast episode
+def podcastFull(topic):
+    print(topic, 'FINAL LOC')
+    full_episode_prompt = f"""
+        You are an AMAZING astronomy teacher that kids absolutely adore! Your voice is full of wonder, excitement, and playfulness. Your job is to create a **full, engaging, and educational podcast episode** about **{topic}**—designed for curious young minds who LOVE space! 🌌✨  
+
+        🎯 **Your Mission:**  
+        Tell a fun and imaginative story about **{topic}** using simple language kids can understand. Make it exciting with playful sound effects, vivid descriptions, and interactive questions that spark curiosity. Keep your explanations scientifically accurate, but always fun and easy to follow.
+
+        📝 **Episode Flow:**  
+        - Start with a warm, thrilling introduction to hook the listener.  
+        - Dive into the topic using fun examples and storytelling (e.g., “Imagine you’re floating next to a star…”).  
+        - Add surprises, cool facts, and moments where kids can guess or imagine things (e.g., “Can you guess which planet spins the fastest? 🏎️”).  
+        - Wrap it up with an awesome space fact and a cheerful invitation for kids to keep exploring. 🚀  
+
+        🎤 **Example Start:**  
+        "Hey there, space explorers! 🚀 Have you ever wondered what it would be like to stand on the surface of Mars? 🌌 Imagine looking up and seeing two tiny moons zooming across the sky! Buckle up, because today, we’re going on a wild journey to the Red Planet—get ready for dust storms, ancient rivers, and secrets hidden beneath the surface! 🔭✨"  
+
+        Now, let’s create a **fun, imaginative, and educational 200-word episode** all about **{topic}**! 🛸
+        """
+
+    llm_podcast = ChatOpenAI(model = 'gpt-3.5-turbo')
+
+    full_episode = llm_podcast.invoke(full_episode_prompt).content
+
+    return full_episode
+
+
 # Warm-up function
 def warm_up_openai_client():
     try:
         client = OpenAI()
         # Send a short dummy request to preload
         client.audio.speech.create(
-            model='tts-1',
-            voice='ash',
-            input="Hey there, explorers! This is just a warm-up for our space adventure ahead.",
-            response_format='mp3'
+            model = 'tts-1',
+            voice = 'ash',
+            input = 'Hey there, explorers! This is just a warm-up for our space adventure ahead.',
+            response_format = 'mp3'
         )
-        print("Warm-up successful!")
+        print('Warm-up successful!')
     except Exception as e:
-        print("Warm-up failed:", e)
+        print('Warm-up failed:', e)
+
 
 # Retry logic for TTS generation
-def generate_speech(podcastText, retries=3, delay=2):
+def generate_speech(podcastText, retries = 3, delay = 2):
     podcastClient = OpenAI()
     attempt = 0
     while attempt < retries:
         try:
             response = podcastClient.audio.speech.create(
-                model='tts-1',
-                voice='ash',
-                input=podcastText,
-                response_format='mp3'
+                model = 'tts-1',
+                voice = 'ash',
+                input = podcastText,
+                response_format = 'mp3'
             )
             return response.content
         except OpenAIError as e:
             attempt += 1
             print(f"Attempt {attempt} failed: {e}")
             time.sleep(delay * attempt)
-    raise Exception("Failed to generate speech after retries.")
+    raise Exception('Failed to generate speech after retries.')
+
 
 # Main podcast output function
 def podcastOutput(request):
@@ -327,12 +356,7 @@ def podcastOutput(request):
         yield mp3_audio
 
     # Set up response
-    response = StreamingHttpResponse(stream_audio(), content_type='audio/mpeg')
+    response = StreamingHttpResponse(stream_audio(), content_type = 'audio/mpeg')
     response['Content-Disposition'] = 'inline; filename="podcast.mp3"'
     response['Accept-Ranges'] = 'bytes'
     return response
-
-
-# Create full podcast episode
-def podcastFull():
-    return 'This is going to be the full episode!'
