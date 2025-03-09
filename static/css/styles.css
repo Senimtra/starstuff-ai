@@ -1,9 +1,9 @@
 /* Body Styles */
 body {
-    background-color: #080027;
     color: white;
     height: 100vh;
     padding-top: 4em;
+    background-image: url("/static/images/background_stars.png");
 }
 
 /* Section Box Styles */
@@ -243,8 +243,8 @@ body {
 .star {
     position: absolute;
     background: white;
-    width: 2px;
-    height: 2px;
+    width: 2.5px;
+    height: 2.5px;
     border-radius: 50%;
     animation: twinkle 2s infinite;
 }

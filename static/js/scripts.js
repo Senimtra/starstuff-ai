@@ -29,7 +29,7 @@ const csrftoken = getCookie("csrftoken");
 
 // Function random animated stars
 const createStars = () => {
-    for (let i = 0; i < 1000; i++) {
+    for (let i = 0; i < 500; i++) {
         let star = document.createElement("div");
         star.className = "star";
         star.style.top = Math.random() * 99.5 + "vh";
