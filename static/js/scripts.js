@@ -1,9 +1,10 @@
-// Shuffle images
+// Global states
 let imageShuffle;
 let shufflePosition;
 let introState = false;
 let podCastText;
 let podCastTopic;
+let isPlaying = false;
 
 // Function to get CSRF token from the cookie
 const getCookie = (name) => {
@@ -262,41 +263,40 @@ const shuffleImages = () => {
 const activatePodcastTeaserBtn = () => {
     let teaserBtn = document.getElementById("podcast-teaser-btn");
     let episodeBtn = document.getElementById("podcast-full-btn");
+    // Reset playing state when new topic is set
+    isPlaying = false;
     teaserBtn.classList.replace("disabled", "podcast-teaser-animate");
     episodeBtn.classList.replace("disabled", "podcast-full-animate");
     console.log("podcast buttons activated");
 };
 
+// Deactivate Podcast Buttons
+const deactivatePodcastBtn = () => {
+    let teaserBtn = document.getElementById("podcast-teaser-btn");
+    let episodeBtn = document.getElementById("podcast-full-btn");
+    teaserBtn.classList.replace("podcast-teaser-animate", "disabled");
+    episodeBtn.classList.replace("podcast-full-animate", "disabled");
+};
+
 // Podcast Request & Audio Playback
 const podcast = async (button) => {
-    console.log(button.innerText.slice(4));
+    if (isPlaying) {
+        console.log("Podcast is already playing. Wait for it to finish.");
+        return; // Prevent multiple clicks
+    }
+    // Set the playing flag to true
+    isPlaying = true;
     let podcastType = button.innerText.slice(4);
     console.log("THIS_B", podCastText);
     console.log("THIS TOPIC FRONTEND", podCastTopic);
-    // Set Spinner
-    if (podcastType == "Teaser") {
-        let teaserBtn = document.getElementById("podcast-teaser-btn");
-        let spinnerTeaser = document.createElement("span");
-        spinnerTeaser.classList.add(
-            "spinner-border",
-            "spinner-border-sm",
-            "spinner-teaser"
-        );
-        spinnerTeaser.setAttribute("role", "status");
-        spinnerTeaser.style.marginLeft = "10px";
-        teaserBtn.appendChild(spinnerTeaser);
-    } else {
-        let episodeBtn = document.getElementById("podcast-full-btn");
-        let spinnerEpisode = document.createElement("span");
-        spinnerEpisode.classList.add(
-            "spinner-border",
-            "spinner-border-sm",
-            "spinner-episode"
-        );
-        spinnerEpisode.setAttribute("role", "status");
-        spinnerEpisode.style.marginLeft = "10px";
-        episodeBtn.appendChild(spinnerEpisode);
-    }
+    // Disable buttons
+    deactivatePodcastBtn();
+    // Create and add spinner
+    let spinner = document.createElement("span");
+    spinner.classList.add("spinner-border", "spinner-border-sm");
+    spinner.setAttribute("role", "status");
+    spinner.style.marginLeft = "10px";
+    button.appendChild(spinner);
     // Send the POST request
     let response = await fetch("/podcast/", {
         method: "POST",
@@ -310,23 +310,18 @@ const podcast = async (button) => {
             podTopic: podCastTopic,
         }),
     });
-    // Convert response to a blob (mp3 file)
+    // Create audio element (mp3) and play
     let audioBlob = await response.blob();
-    // Create temporary URL for mp3 file
     let audioUrl = URL.createObjectURL(audioBlob);
-    // Create audio element and play
     let audio = new Audio(audioUrl);
     audio.play();
-    if (podcastType == "Teaser") {
-        let spinnerTeaserElement =
-            document.getElementsByClassName("spinner-teaser")[0];
-        spinnerTeaserElement.remove();
-    } else {
-        let spinnerEpisodeElement =
-            document.getElementsByClassName("spinner-episode")[0];
-        spinnerEpisodeElement.remove();
-    }
     console.log("Podcast is playing...");
+    audio.onended = () => {
+        isPlaying = false;
+        activatePodcastTeaserBtn();
+        console.log("Podcast finished, buttons re-enabled.");
+    };
+    spinner.remove();
 };
 
 // Project Introduction Toggle
