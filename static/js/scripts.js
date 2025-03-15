@@ -5,6 +5,7 @@ let introState = false;
 let podCastText;
 let podCastTopic;
 let isPlaying = false;
+let audio;
 
 // Function to get CSRF token from the cookie
 const getCookie = (name) => {
@@ -185,6 +186,11 @@ const setResetButton = () => {
         let podcastEpisode = document.getElementById("podcast-full-btn");
         podcastTeaser.classList.replace("podcast-teaser-animate", "disabled");
         podcastEpisode.classList.replace("podcast-full-animate", "disabled");
+        // Reset Audio playback
+        audio.pause();
+        audio.currentTime = 0; // Reset to the beginning
+        let playingStatus = document.getElementById("podcast-status");
+        playingStatus.style.display = "none";
         //Send the POST request
         fetch("/reset/", {
             method: "POST",
@@ -313,13 +319,18 @@ const podcast = async (button) => {
     // Create audio element (mp3) and play
     let audioBlob = await response.blob();
     let audioUrl = URL.createObjectURL(audioBlob);
-    let audio = new Audio(audioUrl);
+    audio = new Audio(audioUrl);
     audio.play();
+    // Activate frontend-status 'Podcast playing'
+    let playingStatus = document.getElementById("podcast-status");
+    playingStatus.style.display = "block";
     console.log("Podcast is playing...");
     audio.onended = () => {
         isPlaying = false;
         activatePodcastTeaserBtn();
         console.log("Podcast finished, buttons re-enabled.");
+        // Deactivate frontend-status 'Podcast playing'
+        playingStatus.style.display = "none";
     };
     spinner.remove();
 };

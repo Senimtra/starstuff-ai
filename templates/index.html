@@ -48,8 +48,7 @@
                     </div>
                     <div>
                         <div class="button-box d-flex justify-content-center align-items-center">
-                            <a href="{{ langsmith_url }}"
-                                target="_blank">
+                            <a href="{{ langsmith_url }}" target="_blank">
                                 <button type="button" id="langSmith" class="btn btn-sm btn-dark"><img
                                         src="{% static 'images/slide_06_2.png' %}" />LangSmith</button>
                             </a>
@@ -92,7 +91,8 @@
                 <div class="nasa-frame layout-box">
                     <div class="d-flex justify-content-between">
                         <h5>🪐 NASA Images</h5>
-                        <div id="shuffle-button" class="btn btn-warning me-1">Shuffle</div>
+                        <div id="shuffle-button" class="btn btn-warning me-1">Shuffle <span class="ms-1">🖼️</span>
+                        </div>
                     </div>
                     <div class="d-flex">
                         <div class="nasa-image">
@@ -102,12 +102,16 @@
                 </div>
                 <!-- Podcast -->
                 <div class="podcast-frame layout-box">
-                    <h5>🎙️ Podcast</h5>
+                    <div class="d-flex justify-content-between">
+                        <h5>🎙️ Podcast</h5>
+                        <div id="podcast-status" class="me-1">… playing audio <span class="ms-1">🎤</span></div>
+                    </div>
                     <div class="podcast-box d-flex justify-content-center align-items-center">
                         <div id="podcast-teaser-btn" class="btn btn-warning podcast-btn disabled"
                             onclick="podcast(this)">▶️&nbsp;<em>Teaser</em>
                         </div>
-                        <div id="podcast-full-btn" class="btn btn-warning podcast-btn disabled ms-3" onclick="podcast(this)">
+                        <div id="podcast-full-btn" class="btn btn-warning podcast-btn disabled ms-3"
+                            onclick="podcast(this)">
                             ▶️&nbsp;<em>Episode</em></div>
                     </div>
                 </div>

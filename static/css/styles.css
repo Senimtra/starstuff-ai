@@ -225,6 +225,10 @@ body {
     animation: shuffleGlow 0.75s infinite alternate ease-in-out;
 }
 
+#shuffle-button span {
+    font-style: normal;
+}
+
 @keyframes shuffleGlow {
     0% {
         box-shadow: 0 0 15px rgb(255, 217, 0);
@@ -365,34 +369,57 @@ body {
 }
 
 #podcast-teaser-btn {
-    color: rgb(244, 191, 0);
-    border: 2px solid rgb(255, 208, 0);
+    color: rgb(255, 200, 0);
+    border: 2px solid rgba(255, 208, 0, 0.514);
     background-color: rgba(141, 115, 0, 0.511);
 }
 
 .podcast-teaser-animate {
     border: 2px solid rgb(255, 208, 0) !important;
-    background-color: rgba(227, 186, 0, 0.511) !important;
-    animation: shuffleGlow 0.75s infinite alternate ease-in-out;
+    background-color: rgba(227, 185, 0, 0.642) !important;
+    animation: episodeGlow 0.65s infinite alternate ease-in-out;
 }
 
 #podcast-full-btn {
-    color: rgb(244, 0, 0);
-    border: 2px solid rgb(255, 0, 0);
-    background-color: rgba(141, 0, 0, 0.511);
+    color: rgb(255, 0, 0);
+    border: 2px solid rgba(255, 0, 0, 0.614);
+    background-color: rgba(141, 0, 0, 0.635);
+}
+
+#podcast-status {
+    font-size: 1em;
+    font-style: italic;
+    font-weight: 700;
+    display: none;
+    color: rgb(49, 145, 255) !important;
+    animation: podcastGlow 0.5s infinite alternate ease-in-out;
+}
+
+#podcast-status span {
+    font-style: normal;
+}
+
+@keyframes podcastGlow {
+    0% {
+        text-shadow: 0 0 10px rgb(84, 164, 255), 0 0 20px rgb(84, 164, 255);
+    }
+    100% {
+        text-shadow: 0 0 15px rgba(67, 170, 255, 0.9),
+            0 0 25px rgba(67, 170, 255, 0.9);
+    }
 }
 
 .podcast-full-animate {
     border: 2px solid rgb(255, 0, 0) !important;
-    background-color: rgba(231, 0, 0, 0.511) !important;
-    animation: episodeGlow 0.75s infinite alternate ease-in-out;
+    background-color: rgba(231, 0, 0, 0.63) !important;
+    animation: episodeGlow 0.65s infinite alternate ease-in-out;
 }
 
 @keyframes episodeGlow {
     0% {
-        box-shadow: 0 0 15px rgb(255, 0, 0);
+        box-shadow: 0 0 18px rgba(255, 255, 255, 0.603);
     }
     100% {
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.114);
+        box-shadow: 0 0 23px rgba(255, 255, 255, 0.08);
     }
 }
