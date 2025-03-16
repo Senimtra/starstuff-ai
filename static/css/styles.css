@@ -51,7 +51,8 @@ body {
 .test-message-display {
     padding: 10px;
     border-radius: 10px;
-    background: #353535;
+    background-image: url("../images/background.png");
+    background-position: center -400px;
     height: 5.4em;
     border: 2px solid rgb(33, 33, 33);
 }
@@ -100,7 +101,8 @@ body {
     height: 3.5em;
     padding: 10px;
     border-radius: 10px;
-    background: #353535;
+    background-image: url("../images/background.png");
+    background-position: center -500px;
     border: 2px solid rgb(33, 33, 33);
 }
 
@@ -133,7 +135,7 @@ body {
 }
 
 #intro-button {
-    border: 2px solid rgb(27, 27, 27);
+    border: 2px solid rgba(0, 110, 255, 0.329);
 }
 
 #intro-button img {
@@ -175,7 +177,8 @@ body {
 .topic-message-display {
     padding: 10px;
     border-radius: 10px;
-    background: #353535;
+    background-image: url("../images/background.png");
+    background-position: center -300px;
     height: 3.7em;
     border: 2px solid rgb(33, 33, 33);
     display: flex;
@@ -354,7 +357,8 @@ body {
     height: 4.5em;
     padding: 0.9em;
     border-radius: 10px;
-    background: #353535;
+    background-image: url("../images/background.png");
+    background-position: center -600px;
     border: 2px solid rgb(33, 33, 33);
 }
 
@@ -417,9 +421,9 @@ body {
 
 @keyframes episodeGlow {
     0% {
-        box-shadow: 0 0 18px rgba(255, 255, 255, 0.603);
+        box-shadow: 0 0 24px rgba(255, 255, 255, 0.795);
     }
     100% {
-        box-shadow: 0 0 23px rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 28px rgba(255, 255, 255, 0.199);
     }
 }

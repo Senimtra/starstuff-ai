@@ -20,7 +20,7 @@
     font-size: 1.1em;
     color: white;
     background: #161616;
-    border: 2px solid rgb(33, 33, 33);
+    border: 2px solid rgba(0, 110, 255, 0.329);
 }
 
 .go-back img {
