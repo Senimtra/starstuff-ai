@@ -28,7 +28,7 @@
                 <!-- Starstuff Header Image -->
                 <div class="header-frame layout-box">
                     <h5>✨ Professor Starstuff</h5>
-                    <video preload="auto" autoplay loop muted id="header-image">
+                    <video preload="auto" autoplay loop muted disablePictureInPicture id="header-image">
                         <source src="{% static 'animations/starstuff.webm' %}" type="video/webm">
                         Your browser does not support the video tag.
                     </video>
@@ -56,8 +56,8 @@
                             <button type="button" id="langSmith" class="btn btn-sm btn-dark"><img
                                     src="{% static 'images/slide_06_2.png' %}" />LangSmith</button>
                         </a>
-                        <button type="button" id="intro-button" class="btn btn-sm btn-dark"
-                            onclick="introSwitch()"><img src="{% static 'images/favicon.ico' %}" /> Intro</button>
+                        <button type="button" id="intro-button" class="btn btn-sm btn-dark" onclick="introSwitch()"><img
+                                src="{% static 'images/favicon.ico' %}" /> Intro</button>
                         <a href="https://github.com/Senimtra/starstuff-ai" target="_blank">
                             <button type="button" id="github-button" class="btn btn-sm btn-dark"><img
                                     src="{% static 'images/github.png' %}" />GitHub</button>
@@ -100,10 +100,11 @@
                         <div id="shuffle-button" class="btn btn-warning me-1">Shuffle <span class="ms-1">🖼️</span>
                         </div>
                     </div>
-                    <div class="d-flex">
-                        <div class="nasa-image">
-                            <img src="{% static 'images/shutter.png' %}" alt="Camera shutter" />
-                        </div>
+                    <div class="nasa-image">
+                        <video preload="auto" autoplay loop muted disablePictureInPicture id="shutter-image">
+                            <source src="{% static 'animations/shutter.webm' %}" type="video/webm">
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                 </div>
                 <!-- Podcast -->

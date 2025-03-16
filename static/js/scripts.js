@@ -178,17 +178,20 @@ const setResetButton = () => {
         let imageBox = document.getElementsByClassName("nasa-image");
         let shuffleButton = document.getElementById("shuffle-button");
         shuffleButton.style.display = "none";
-        Array.from(
-            imageBox
-        )[0].innerHTML = `<img src="/static/images/shutter.png" alt="Camera shutter" />`;
+        Array.from(imageBox)[0].innerHTML = `
+        <video preload="auto" autoplay loop muted id="shutter-image">
+            <source src="/static/animations/shutter.webm" type="video/webm">
+        </video>`;
         // Reset Podcast container
         let podcastTeaser = document.getElementById("podcast-teaser-btn");
         let podcastEpisode = document.getElementById("podcast-full-btn");
         podcastTeaser.classList.replace("podcast-teaser-animate", "disabled");
         podcastEpisode.classList.replace("podcast-full-animate", "disabled");
         // Reset Audio playback
-        audio.pause();
-        audio.currentTime = 0; // Reset to the beginning
+        if (audio) {
+            audio.pause();
+            audio.currentTime = 0; // Reset to the beginning
+        }
         let playingStatus = document.getElementById("podcast-status");
         playingStatus.style.display = "none";
         //Send the POST request
