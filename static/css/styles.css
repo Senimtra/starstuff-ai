@@ -41,7 +41,7 @@ body {
 
 /* Test Messages Frame Styles */
 .test-messages-frame {
-    margin-top: 2em;
+    margin-top: 1.9em;
 }
 
 .test-buttons button {
@@ -54,7 +54,7 @@ body {
     background-image: url("../images/background.png");
     background-position: center -400px;
     border: 2px solid rgb(33, 33, 33);
-    margin-top: 0.6em;
+    margin-top: 0.5em;
 }
 
 #test-message {
@@ -69,10 +69,6 @@ body {
 #test-message-text {
     font-size: 105%;
     font-style: italic;
-}
-
-#button-box {
-    margin-top: 0.4em;
 }
 
 /* Test Message Button Glow */
@@ -101,11 +97,17 @@ body {
     }
 }
 
+/* Button Box Styles */
+#button-box {
+    margin-top: 0.6em;
+}
+
 #langSmith {
     width: 10em;
     background-color: rgb(28, 60, 58);
     border: 2px solid rgb(40, 85, 82);
     padding-right: 1em;
+    border-bottom-left-radius: 0.7em;
 }
 
 #langSmith:hover {
@@ -120,16 +122,32 @@ body {
 
 #intro-button {
     border: 2px solid rgba(0, 110, 255, 0.329);
+    background-color: rgba(0, 110, 255, 0.347);
 }
 
 #intro-button img {
     width: 1.5em;
-    margin-right: 0.8em;
+    margin-right: 0.3em;
     border-radius: 0.1em;
 }
 
 #intro-button:hover {
-    background-color: rgb(24, 24, 24);
+    background-color: rgba(0, 110, 255, 0.196);
+}
+
+#github-button {
+    border: 2px solid #6600ff;
+    border-bottom-right-radius: 0.7em;
+    background-color: #5117a889;
+}
+
+#github-button:hover {
+    background-color: #6600ff31;
+}
+
+#github-button img {
+    width: 1.2em;
+    margin-right: 0.3em;
 }
 
 /* Topic Frame Styles */

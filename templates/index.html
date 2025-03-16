@@ -48,15 +48,20 @@
                     <div class="test-message-display">
                         <div id="test-message"><span id="test-message-emoji">👨🏾‍🚀 </span><span
                                 id="test-message-text"></span></div>
-                        <div id="button-box" class="d-flex justify-content-between">
-                            <a href="{{ langsmith_url }}" target="_blank">
-                                <button type="button" id="langSmith" class="btn btn-sm btn-dark"><img
-                                        src="{% static 'images/slide_06_2.png' %}" />LangSmith</button>
-                            </a>
-                            <button type="button" id="intro-button" class="btn btn-sm btn-dark ms-1"
-                                onclick="introSwitch()"><img src="{% static 'images/favicon.ico' %}" /> Mission
-                                Briefing</button>
-                        </div>
+
+                    </div>
+
+                    <div id="button-box" class="d-flex justify-content-between">
+                        <a href="{{ langsmith_url }}" target="_blank">
+                            <button type="button" id="langSmith" class="btn btn-sm btn-dark"><img
+                                    src="{% static 'images/slide_06_2.png' %}" />LangSmith</button>
+                        </a>
+                        <button type="button" id="intro-button" class="btn btn-sm btn-dark"
+                            onclick="introSwitch()"><img src="{% static 'images/favicon.ico' %}" /> Intro</button>
+                        <a href="https://github.com/Senimtra/starstuff-ai" target="_blank">
+                            <button type="button" id="github-button" class="btn btn-sm btn-dark"><img
+                                    src="{% static 'images/github.png' %}" />GitHub</button>
+                        </a>
                     </div>
                 </div>
             </div>
