@@ -64,6 +64,10 @@ html::-webkit-scrollbar {
     display: none;
 }
 
+h1 {
+    font-family: "Margarine";
+}
+
 img {
     border-radius: 0.5em;
 }
@@ -117,6 +121,7 @@ ul {
 #slide_01-title {
     font-size: 2.8em;
     margin-bottom: 0.3em;
+    font-family: "Margarine";
 }
 
 .slide_01-sub1 {
@@ -289,6 +294,7 @@ ul {
     align-items: center;
     font-size: 3.5em;
     font-weight: bold;
+    font-family: "Margarine";
 }
 
 .slide_08 img {

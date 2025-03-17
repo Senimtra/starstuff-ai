@@ -6,6 +6,44 @@ body {
     background-image: url("/static/images/background_stars.png");
 }
 
+/* Fonts */
+@font-face {
+    font-family: "Margarine";
+    src: url("/static/fonts/Margarine-Regular.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: "Nunito";
+    src: url("/static/fonts/Nunito-VariableFont_wght.ttf") format("truetype");
+}
+
+h5,
+.tmBtn,
+#btnReset,
+#langSmith,
+#intro-button,
+#github-button,
+#topic-text,
+#shuffle-button,
+#podcast-status,
+#podcast-teaser-btn,
+#podcast-full-btn {
+    font-family: "Margarine";
+}
+
+#sendBtn {
+    font-family: "Margarine";
+    font-weight: bold;
+}
+
+.message-box,
+.message-bot,
+#test-message-text,
+#user-input,
+#topic-message {
+    font-family: "Nunito";
+}
+
 /* Section Box Styles */
 .section-box {
     display: flex;
@@ -67,8 +105,12 @@ body {
 }
 
 #test-message-text {
-    font-size: 105%;
     font-style: italic;
+    color: rgb(207, 235, 207);
+}
+
+.tmBtn {
+    color: rgb(207, 235, 207);
 }
 
 /* Test Message Button Glow */
@@ -142,12 +184,96 @@ body {
 }
 
 #github-button:hover {
-    background-color: #6600ff31;
+    background-color: #6600ff54;
 }
 
 #github-button img {
     width: 1.2em;
     margin-right: 0.3em;
+}
+
+/* Chat Box Styles */
+.chat-box {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column-reverse; /* Ensures new messages appear at the bottom */
+    justify-content: flex-start; /* Aligns older messages to the top */
+    padding: 10px;
+    font-size: 18px;
+    background: #222;
+    border-radius: 10px;
+    overflow-y: auto; /* Enables vertical scrolling */
+    scrollbar-width: none; /* Hides scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hides scrollbar in IE/Edge */
+    background-image: url("../images/background.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border: 2px solid rgb(33, 33, 33);
+}
+
+/* Hides scrollbar for WebKit browsers (Chrome, Safari) */
+.chat-box::-webkit-scrollbar {
+    display: none;
+}
+
+#chat-content {
+    font-size: 0.9em;
+}
+
+/* Message Box Styles */
+.message-box {
+    color: rgb(207, 235, 207);
+    border: 2px solid rgb(0, 145, 0);
+    background-color: rgba(0, 95, 0, 0.85);
+    padding: 4px 8px;
+    margin-top: 7px;
+    border-radius: 10px;
+    border-bottom-right-radius: 0px;
+    font-style: italic;
+}
+
+/* Message Bot Styles */
+.message-bot {
+    color: rgb(208, 181, 228);
+    border: 2px solid rgb(122, 0, 122);
+    background-color: rgba(65, 0, 65, 0.85);
+    padding: 4px 8px;
+    margin-top: 7px;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+}
+
+/* Input Area Styles */
+.input-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+/* Input Field */
+.input-area input {
+    flex-grow: 1;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    background: #444;
+    color: white;
+    border: 2px solid rgb(33, 33, 33);
+}
+
+/* Send Button */
+.input-area button {
+    background: #ffcc00;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+    border: 3px solid rgb(218, 134, 0);
+}
+
+#user-input:focus {
+    outline: none !important;
 }
 
 /* Topic Frame Styles */
@@ -189,8 +315,7 @@ body {
 }
 
 #topic-message {
-    font-size: 105%;
-    /* font-size: 0.9em; */
+    color: rgb(208, 181, 228);
     border: 2px solid rgb(122, 0, 122);
     background-color: rgba(65, 0, 65, 0.85);
     padding: 4px 8px;
@@ -227,19 +352,14 @@ body {
 #shuffle-button {
     height: 2em;
     font-size: 0.7em;
-    font-style: italic;
     font-weight: 500;
-    padding: 0 0.6em;
+    padding: 0.1em 0.6em 0 0.6em;
     border-radius: 0.5em;
     display: none;
     color: rgb(244, 191, 0);
     border: 2px solid rgb(255, 208, 0);
     background-color: rgba(141, 115, 0, 0.511);
     animation: shuffleGlow 0.75s infinite alternate ease-in-out;
-}
-
-#shuffle-button span {
-    font-style: normal;
 }
 
 @keyframes shuffleGlow {
@@ -277,85 +397,6 @@ body {
     100% {
         opacity: 0.2;
     }
-}
-
-/* Chat Box Styles */
-.chat-box {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column-reverse; /* Ensures new messages appear at the bottom */
-    justify-content: flex-start; /* Aligns older messages to the top */
-    padding: 10px;
-    font-size: 18px;
-    background: #222;
-    border-radius: 10px;
-    overflow-y: auto; /* Enables vertical scrolling */
-    scrollbar-width: none; /* Hides scrollbar in Firefox */
-    -ms-overflow-style: none; /* Hides scrollbar in IE/Edge */
-    background-image: url("../images/background.png");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    border: 2px solid rgb(33, 33, 33);
-}
-
-/* Hides scrollbar for WebKit browsers (Chrome, Safari) */
-.chat-box::-webkit-scrollbar {
-    display: none;
-}
-
-/* Message Box Styles */
-.message-box {
-    font-size: 0.9em;
-    border: 2px solid rgb(0, 145, 0);
-    background-color: rgba(0, 95, 0, 0.85);
-    padding: 4px 8px;
-    margin-top: 7px;
-    border-radius: 10px;
-    border-bottom-right-radius: 0px;
-}
-
-/* Message Bot Styles */
-.message-bot {
-    font-size: 0.9em;
-    border: 2px solid rgb(122, 0, 122);
-    background-color: rgba(65, 0, 65, 0.85);
-    padding: 4px 8px;
-    margin-top: 7px;
-    border-radius: 10px;
-    border-top-left-radius: 0px;
-}
-
-/* Input Area Styles */
-.input-area {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-/* Input Field */
-.input-area input {
-    flex-grow: 1;
-    border: none;
-    padding: 10px;
-    border-radius: 10px;
-    background: #444;
-    color: white;
-    border: 2px solid rgb(33, 33, 33);
-}
-
-/* Send Button */
-.input-area button {
-    background: #ffcc00;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
-    font-weight: bold;
-    border: 3px solid rgb(218, 134, 0);
-}
-
-#user-input:focus {
-    outline: none !important;
 }
 
 /* Podcast Frame Styles */

@@ -78,7 +78,7 @@
                     <!-- Input area -->
                     <div class="input-area">
                         <input type="text" id="user-input" placeholder="Curious about space?  (✦‿✦)☆">
-                        <button onclick="sendMessage()">Send</button>
+                        <button onclick="sendMessage()" id="sendBtn">SEND</button>
                     </div>
                 </div>
             </div>
@@ -90,15 +90,14 @@
                             waiting</span>
                     </div>
                     <div class="topic-message-display">
-                        <span id="topic-message">🧙‍♂️ <em>"Our topic updates as we chat!"</em></span>
+                        <span id="topic-message">🧙‍♂️ <em>"Our topic updates while we chat!"</em></span>
                     </div>
                 </div>
                 <!-- NASA Astronomy Images -->
                 <div class="nasa-frame layout-box">
                     <div class="d-flex justify-content-between">
                         <h5>🪐 NASA Images</h5>
-                        <div id="shuffle-button" class="btn btn-warning me-1">Shuffle <span class="ms-1">🖼️</span>
-                        </div>
+                        <div id="shuffle-button" class="btn btn-warning me-1">Shuffle</div>
                     </div>
                     <div class="nasa-image">
                         <video preload="auto" autoplay loop muted disablePictureInPicture id="shutter-image">
@@ -115,11 +114,11 @@
                     </div>
                     <div class="podcast-box d-flex justify-content-center align-items-center">
                         <div id="podcast-teaser-btn" class="btn btn-warning podcast-btn disabled"
-                            onclick="podcast(this)">▶️&nbsp;<em>Teaser</em>
+                            onclick="podcast(this)">▶️&nbsp;<em>TEASER</em>
                         </div>
                         <div id="podcast-full-btn" class="btn btn-warning podcast-btn disabled ms-3"
                             onclick="podcast(this)">
-                            ▶️&nbsp;<em>Episode</em></div>
+                            ▶️&nbsp;<em>EPISODE</em></div>
                     </div>
                 </div>
             </div>
