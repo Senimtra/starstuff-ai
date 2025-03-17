@@ -358,3 +358,73 @@ const introSwitch = () => {
         introState = false;
     }
 };
+
+// Function random shooting stars
+const createShootingStars = () => {
+    const shootingSky = document.body;
+    function createShootingStar() {
+        const shootingStar = document.createElement("div");
+        shootingStar.classList.add("shooting-star");
+        let startX, startY, endX, endY, angle, duration;
+        // Randomize start position from left/right/top
+        let side = Math.floor(Math.random() * 3);
+        switch (side) {
+            case 0: // Left to Right
+                startX = -50;
+                startY = Math.random() * shootingSky.clientHeight;
+                endX = shootingSky.clientWidth + 50;
+                endY = startY - (Math.random() * 150 - 875);
+                break;
+            case 1: // Right to Left
+                startX = shootingSky.clientWidth + 50;
+                startY = Math.random() * shootingSky.clientHeight;
+                endX = -50;
+                endY = startY - (Math.random() * 150 - 875);
+                break;
+            case 2: // Top to Bottom (possible left or right)
+                startX = Math.random() * shootingSky.clientWidth;
+                startY = -50;
+                endX = startX + (Math.random() * 1000 - 500);
+                endY = shootingSky.clientHeight + 150;
+                break;
+        }
+        // Calculate angle of movement
+        angle = Math.atan2(endY - startY, endX - startX) * (180 / Math.PI);
+        duration = Math.random() * 0.5 + 0.5;
+        // Apply styles
+        shootingStar.style.left = `${startX}px`;
+        shootingStar.style.top = `${startY}px`;
+        shootingStar.style.transform = `rotate(${angle + 90}deg)`;
+        shootingStar.style.animation = `shooting ${duration}s linear forwards`;
+        // Append shooting star
+        shootingSky.appendChild(shootingStar);
+        // Move the star across the screen
+        shootingStar.animate(
+            [
+                {
+                    transform: `translate(0, 0) rotate(${angle + 90}deg)`,
+                    opacity: 1,
+                },
+                {
+                    transform: `translate(${endX - startX}px, ${
+                        endY - startY
+                    }px) rotate(${angle + 90}deg)`,
+                    opacity: 0,
+                },
+            ],
+            {
+                duration: duration * 1000,
+                easing: "linear",
+                fill: "forwards",
+            }
+        );
+        // Remove after animation
+        setTimeout(() => {
+            shootingStar.remove();
+        }, duration * 1500);
+        // Set new random interval for next shooting star
+        let nextInterval = Math.random() * 3.5 + 0.5;
+        setTimeout(createShootingStar, nextInterval * 1000);
+    }
+    createShootingStar();
+};

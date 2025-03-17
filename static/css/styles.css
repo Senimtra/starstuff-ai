@@ -6,6 +6,47 @@ body {
     background-image: url("/static/images/background_stars.png");
 }
 
+/* Twinkling Star Styles */
+.star {
+    position: absolute;
+    background: white;
+    width: 2.5px;
+    height: 2.5px;
+    border-radius: 50%;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+    0% {
+        opacity: 0.2;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.2;
+    }
+}
+
+/* Shooting Stars Styles */
+.shooting-star {
+    position: absolute;
+    width: 3px;
+    height: 50px;
+    background: linear-gradient(to bottom, white, rgba(255, 255, 255, 0));
+    opacity: 1;
+    transform-origin: top left;
+}
+
+@keyframes shooting {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 /* Fonts */
 @font-face {
     font-family: "Margarine";
@@ -288,6 +329,16 @@ h5,
     font-style: italic;
     font-weight: 900;
     color: rgb(255, 204, 0);
+    animation: topicGlow 0.75s infinite alternate ease-in-out;
+}
+
+@keyframes topicGlow {
+    0% {
+        text-shadow: 0 0 15px rgb(255, 217, 0);
+    }
+    100% {
+        text-shadow: 0 0 20px rgba(255, 230, 0, 0.114);
+    }
 }
 
 @keyframes pulseText {
@@ -374,29 +425,6 @@ h5,
 /* Mobile Frame Styles */
 .mobile-frame {
     height: 80vh;
-}
-
-/* Star Styles */
-.star {
-    position: absolute;
-    background: white;
-    width: 2.5px;
-    height: 2.5px;
-    border-radius: 50%;
-    animation: twinkle 2s infinite;
-}
-
-/* Animation for star twinkling */
-@keyframes twinkle {
-    0% {
-        opacity: 0.2;
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0.2;
-    }
 }
 
 /* Podcast Frame Styles */
