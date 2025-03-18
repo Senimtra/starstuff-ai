@@ -59,7 +59,6 @@ const sendMessage = () => {
         document.getElementById("user-input").focus();
         input = input.trim().replace(/^"|"$/g, "");
         input = `"${input}"`;
-        console.log(input);
         getResponse(input);
     }
 };
@@ -77,7 +76,6 @@ const getResponse = (query) => {
     })
         .then((response) => response.json())
         .then((result) => {
-            console.log(result.response[0]);
             // Append chatbot message
             let newResponse = document.createElement("div");
             newResponse.classList.add("message-bot");
@@ -99,12 +97,9 @@ const getResponse = (query) => {
                 // Set image shuffle
                 setShuffle(topic);
                 // Activate podcast teaser button
-                console.log("THIS_A", result.response[2]["teaser"]);
                 podCastText = result.response[2]["teaser"];
                 podCastTopic = result.response[2]["topic"];
                 activatePodcastTeaserBtn();
-            } else {
-                console.log("no topic set");
             }
         });
 };
@@ -120,7 +115,6 @@ const setShuffle = (topic) => {
 
 // Topic container insert topic
 const setTopic = (topic) => {
-    console.log(topic);
     let topicHeader = document.getElementById("topic-header");
     topicHeader.innerText = "🌌 Our Topic";
     let topicSet = document.getElementById("topic-text");
@@ -200,8 +194,6 @@ const setResetButton = () => {
             headers: {
                 "X-CSRFToken": csrftoken,
             },
-        }).then(() => {
-            console.log("Reset triggered");
         });
     });
 };
@@ -276,7 +268,6 @@ const activatePodcastTeaserBtn = () => {
     isPlaying = false;
     teaserBtn.classList.replace("disabled", "podcast-teaser-animate");
     episodeBtn.classList.replace("disabled", "podcast-full-animate");
-    console.log("podcast buttons activated");
 };
 
 // Deactivate Podcast Buttons
@@ -290,14 +281,11 @@ const deactivatePodcastBtn = () => {
 // Podcast Request & Audio Playback
 const podcast = async (button) => {
     if (isPlaying) {
-        console.log("Podcast is already playing. Wait for it to finish.");
         return; // Prevent multiple clicks
     }
     // Set the playing flag to true
     isPlaying = true;
     let podcastType = button.innerText.slice(4);
-    console.log("THIS_B", podCastText);
-    console.log("THIS TOPIC FRONTEND", podCastTopic);
     // Disable buttons
     deactivatePodcastBtn();
     // Create and add spinner
@@ -327,11 +315,9 @@ const podcast = async (button) => {
     // Activate frontend-status 'Podcast playing'
     let playingStatus = document.getElementById("podcast-status");
     playingStatus.style.display = "block";
-    console.log("Podcast is playing...");
     audio.onended = () => {
         isPlaying = false;
         activatePodcastTeaserBtn();
-        console.log("Podcast finished, buttons re-enabled.");
         // Deactivate frontend-status 'Podcast playing'
         playingStatus.style.display = "none";
     };

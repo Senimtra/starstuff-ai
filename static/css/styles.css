@@ -500,9 +500,9 @@ h5,
 
 @keyframes episodeGlow {
     0% {
-        box-shadow: 0 0 20px rgba(255, 255, 255, 0.795);
+        box-shadow: 0 0 18px rgba(255, 255, 255, 0.795);
     }
     100% {
-        box-shadow: 0 0 24px rgba(255, 255, 255, 0.199);
+        box-shadow: 0 0 22px rgba(255, 255, 255, 0.199);
     }
 }

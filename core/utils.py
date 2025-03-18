@@ -16,8 +16,6 @@ from langchain_core.messages import SystemMessage
 from langgraph.graph import MessagesState, StateGraph, END
 from langgraph.prebuilt import ToolNode, tools_condition
 
-from django.http import HttpResponse, JsonResponse
-
 from django.http import StreamingHttpResponse
 import json
 import time
@@ -272,7 +270,6 @@ def getMessage(graph, session_key, query):
 
 # Create full podcast episode
 def podcastFull(topic):
-    print(topic, 'FINAL LOC')
     full_episode_prompt = f"""
         You are an AMAZING astronomy teacher that kids absolutely adore! Your voice is full of wonder, excitement, and playfulness. Your job is to create a **full, engaging, and educational podcast episode** about **{topic}**—designed for curious young minds who LOVE space! 🌌✨  
 
@@ -340,11 +337,10 @@ def podcastOutput(request):
 
     # Parse JSON request body
     podcast = json.loads(request.body)
-    print('GOING BACKEND', podcast)
     podcast_type = podcast['type']
 
     # Set up podcast text
-    if podcast_type == 'Teaser':
+    if podcast_type == 'TEASER':
         podcastText = podcast['podText']
     else:
         podcastTopic = podcast['podTopic']
