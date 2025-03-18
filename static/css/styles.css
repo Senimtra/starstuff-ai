@@ -298,19 +298,42 @@ h5,
     border: none;
     padding: 10px;
     border-radius: 10px;
-    background: #444;
+    background: linear-gradient(
+            rgba(83, 83, 83, 0.833),
+            rgba(83, 83, 83, 0.849)
+        ),
+        url("../images/background.png") no-repeat center center/cover;
     color: white;
     border: 2px solid rgb(33, 33, 33);
 }
 
 /* Send Button */
-.input-area button {
-    background: #ffcc00;
-    padding: 10px 15px;
-    border-radius: 10px;
-    cursor: pointer;
+#sendBtn {
+    background-color: #ffc107;
+    color: black;
     font-weight: bold;
+    padding: 0px 12px;
+    font-size: 1.1em;
     border: 3px solid rgb(218, 134, 0);
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+#sendBtn:hover {
+    transform: scale(1.02);
+}
+
+#sendBtn:active {
+    transform: scale(0.96);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#user-input {
+    padding: 0.6em 0.8em;
+}
+
+#user-input::placeholder {
+    color: rgb(170, 170, 170);
 }
 
 #user-input:focus {
@@ -500,9 +523,9 @@ h5,
 
 @keyframes episodeGlow {
     0% {
-        box-shadow: 0 0 18px rgba(255, 255, 255, 0.795);
+        box-shadow: 0 0 24px rgba(140, 165, 255, 0.795);
     }
     100% {
-        box-shadow: 0 0 22px rgba(255, 255, 255, 0.199);
+        box-shadow: 0 0 28px rgba(140, 177, 255, 0.199);
     }
 }
