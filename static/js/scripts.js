@@ -382,6 +382,8 @@ const createShootingStars = () => {
         shootingStar.style.top = `${startY}px`;
         shootingStar.style.transform = `rotate(${angle + 90}deg)`;
         shootingStar.style.animation = `shooting ${duration}s linear forwards`;
+        shootingStar.style.position = "fixed";
+
         // Append shooting star
         shootingSky.appendChild(shootingStar);
         // Move the star across the screen
